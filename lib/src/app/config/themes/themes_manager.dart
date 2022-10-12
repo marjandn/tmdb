@@ -29,10 +29,12 @@ class ThemesManager {
 
   ThemeData getTheme() => ThemeData(
         primaryColor: primaryColor,
+        scaffoldBackgroundColor: primaryColor,
         secondaryHeaderColor: secondryColor,
         primaryColorLight: primaryColorLight,
         focusColor: focusColor,
         textTheme: textTheme,
         primaryIconTheme: primaryIconTheme,
+        shadowColor: AppColors.grayColor,
       );
 }
