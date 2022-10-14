@@ -7,6 +7,6 @@ abstract class DashboardState extends Equatable {
 
 class HomeSelectedState extends DashboardState {}
 
-class GeneresSelectedState extends DashboardState {}
+class GenreSelectedState extends DashboardState {}
 
 class SearchSelectedState extends DashboardState {}

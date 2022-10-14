@@ -13,7 +13,7 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardState> {
         currentBottomItemIndex = event.itemIndex;
         switch (event.itemIndex) {
           case 1:
-            emit(GeneresSelectedState());
+            emit(GenreSelectedState());
             break;
           case 2:
             emit(SearchSelectedState());

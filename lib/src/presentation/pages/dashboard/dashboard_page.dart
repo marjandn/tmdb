@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/bloc/dashboard_bloc.dart';
-import 'package:tmdb_prj/src/presentation/pages/generes/generes_page.dart';
+import 'package:tmdb_prj/src/presentation/pages/genre/genre_page.dart';
 import 'package:tmdb_prj/src/presentation/pages/home/home_page.dart';
 import 'package:tmdb_prj/src/presentation/pages/search/search_page.dart';
 
@@ -15,7 +15,7 @@ class DashboardPage extends StatelessWidget {
     print("dashboard_page build now!");
     return Scaffold(
       body: BlocBuilder<DashboardBloc, DashboardState>(builder: (context, state) {
-        if (state is GeneresSelectedState) return const GeneresPage();
+        if (state is GenreSelectedState) return const GenrePage();
         if (state is SearchSelectedState) return const SearchPage();
         return const HomePage();
       }),

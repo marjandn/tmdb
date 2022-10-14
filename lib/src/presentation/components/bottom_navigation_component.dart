@@ -46,7 +46,7 @@ class BottomNavigationComponent extends StatelessWidget {
             width: 24,
             color: context.appTheme.focusColor,
           ),
-          label: "Generes",
+          label: "Genre",
         ),
         BottomNavigationBarItem(
           icon: Image.asset(
