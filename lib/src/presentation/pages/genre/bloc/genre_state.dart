@@ -7,45 +7,59 @@ abstract class GenreState extends Equatable {
   List<Object> get props => [];
 }
 
-class GenreTabSelectionState extends GenreState {
-  final int selectionTabIndex;
+class GenreInitial extends GenreState {}
 
-  const GenreTabSelectionState({required this.selectionTabIndex});
+// * Top Tabbar Movie-TvShow
+class MovieTabItemSelectedState extends GenreState {
+  const MovieTabItemSelectedState();
+}
+
+class TvShowTabItemSelectedState extends GenreState {
+  const TvShowTabItemSelectedState();
+}
+
+// * Genres horizontal list
+class SpecificGenreItemSelectedState extends GenreState {
+  final Genre genre;
+  const SpecificGenreItemSelectedState({required this.genre});
 
   @override
-  List<Object> get props => [selectionTabIndex];
+  List<Object> get props => [genre];
 }
 
-class SpecificGenreSelectionState extends GenreState {
-  final int selectedGenreId;
+class GenresListFetchLoadingState extends GenreState {
+  const GenresListFetchLoadingState();
+}
 
-  const SpecificGenreSelectionState({required this.selectedGenreId});
+class GenresListFetchFailedState extends GenreState {
+  final String message;
+  const GenresListFetchFailedState({required this.message});
 
   @override
-  List<Object> get props => [selectedGenreId];
+  List<Object> get props => [message];
 }
 
-class GenresDataLoading extends GenreState {
-  const GenresDataLoading();
+class GenresListFetchSuccessState extends GenreState {
+  final List<Genre> genres;
+  const GenresListFetchSuccessState({required this.genres});
+
+  @override
+  List<Object> get props => [genres];
 }
 
-class GenresDataFaile extends GenreState {
-  const GenresDataFaile();
+// * Movies-TvShows list
+class BodyListFetchLoading extends GenreState {
+  const BodyListFetchLoading();
 }
 
-class GenresDataSuccess extends GenreState {
-  final Genre genres;
-  const GenresDataSuccess({required this.genres});
+class BodyListFatchFaildState extends GenreState {
+  const BodyListFatchFaildState();
 }
 
-class MoviesDataLoading extends GenreState {
-  const MoviesDataLoading();
+class MoviesListFetchSuccessState extends GenreState {
+  const MoviesListFetchSuccessState();
 }
 
-class MoviesDataFailed extends GenreState {
-  const MoviesDataFailed();
-}
-
-class MoviesDataSuccess extends GenreState {
-  const MoviesDataSuccess();
+class TvShowsListFetchSuccessState extends GenreState {
+  const TvShowsListFetchSuccessState();
 }

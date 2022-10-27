@@ -18,7 +18,7 @@ class GenreRemoteSourceImpl extends GenreRemoteSource {
   @override
   Future<GenreResponse> getMovieGenres() async {
     try {
-      final Response response = await dioClient.getRequest(path: "");
+      final Response response = await dioClient.getRequest(path: "genre/movie/list");
 
       if (response.statusCode == 200) {
         final GenreResponse genreResponse = GenreResponse.fromJson(response.data);
@@ -35,7 +35,7 @@ class GenreRemoteSourceImpl extends GenreRemoteSource {
   @override
   Future<GenreResponse> getTvShowGenres() async {
     try {
-      final Response response = await dioClient.getRequest(path: "");
+      final Response response = await dioClient.getRequest(path: "genre/tv/list");
 
       if (response.statusCode == 200) {
         GenreResponse genreResponse = GenreResponse.fromJson(response.data);
@@ -46,6 +46,8 @@ class GenreRemoteSourceImpl extends GenreRemoteSource {
       throw ServerException(response.statusMessage ?? response.statusCode.toString());
     } on DioError catch (error) {
       throw ServerException(error.message);
+    } catch (error) {
+      throw ServerException(error.toString());
     }
   }
 }

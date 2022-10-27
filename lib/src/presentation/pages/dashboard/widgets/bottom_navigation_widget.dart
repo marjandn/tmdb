@@ -3,14 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/bloc/dashboard_bloc.dart';
 
-class BottomNavigationComponent extends StatelessWidget {
-  const BottomNavigationComponent({
+class BottomNavigationWidget extends StatelessWidget {
+  const BottomNavigationWidget({
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    print("bottom_navigation_component build now!");
+    print("bottom_navigation_Widget build now!");
     return BottomNavigationBar(
       selectedItemColor: context.appTheme.focusColor,
       unselectedItemColor: context.appTheme.secondaryHeaderColor,

@@ -7,20 +7,31 @@ abstract class GenreEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TabItemSelected extends GenreEvent {
-  final int tabItemIndex;
-
-  const TabItemSelected({required this.tabItemIndex});
+class TopTabbarItemTappedEvent extends GenreEvent {
+  final GenreParentItems genreParentItems;
+  const TopTabbarItemTappedEvent({required this.genreParentItems});
 
   @override
-  List<Object> get props => [tabItemIndex];
+  List<Object> get props => [genreParentItems];
 }
 
-class GenreItemSelected extends GenreEvent {
-  final int genreId;
-
-  const GenreItemSelected({required this.genreId});
+class GenreItemTappedEvent extends GenreEvent {
+  final Genre genre;
+  const GenreItemTappedEvent({required this.genre});
 
   @override
-  List<Object> get props => [genreId];
+  List<Object> get props => [genre];
+}
+
+class MovieItemTappedEvent extends GenreEvent {
+  final Movie movie;
+  const MovieItemTappedEvent({required this.movie});
+
+  @override
+  List<Object> get props => [movie];
+}
+
+class TvShowItemTappedEvent extends GenreEvent {
+  final TvShow tvShow;
+  const TvShowItemTappedEvent({required this.tvShow});
 }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:tmdb_prj/src/app/config/colors/colors.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
 
-import '../../app/config/colors/colors.dart';
-
-class ListHeaderComponent extends StatelessWidget {
+class ListHeaderWidget extends StatelessWidget {
   final String headerTitle;
   final Function? seeAllCallback;
   final bool showSeeall;
 
-  const ListHeaderComponent({
+  const ListHeaderWidget({
     required this.headerTitle,
     this.showSeeall = true,
     this.seeAllCallback,

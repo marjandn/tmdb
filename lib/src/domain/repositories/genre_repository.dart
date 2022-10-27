@@ -5,7 +5,7 @@ import '../../app/errors/failure.dart';
 import '../entities/genre.dart';
 
 abstract class GenreRepository {
-  Future<Either<Failur, Genre>> getMovieGenres();
+  Future<Either<Failur, List<Genre>>> getMovieGenres();
 
-  Future<Either<Failur, Genre>> getTvShowGenres();
+  Future<Either<Failur, List<Genre>>> getTvShowGenres();
 }

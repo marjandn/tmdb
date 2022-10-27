@@ -35,6 +35,7 @@ class ThemesManager {
         focusColor: focusColor,
         textTheme: textTheme,
         primaryIconTheme: primaryIconTheme,
+        dividerColor: AppColors.grayColor,
         shadowColor: AppColors.grayColor,
       );
 }

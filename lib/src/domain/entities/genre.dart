@@ -2,9 +2,10 @@ import 'package:equatable/equatable.dart';
 
 class Genre extends Equatable {
   final int? id;
+  final String? name;
 
-  const Genre({required this.id});
+  const Genre({this.id, this.name});
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, name];
 }

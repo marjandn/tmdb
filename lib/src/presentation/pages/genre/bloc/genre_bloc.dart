@@ -1,45 +1,76 @@
 import 'package:bloc/bloc.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get_it/get_it.dart';
+import 'package:tmdb_prj/src/app/errors/failure.dart';
+import 'package:tmdb_prj/src/app/types/enums.dart';
+import 'package:tmdb_prj/src/domain/entities/genre.dart';
+import 'package:tmdb_prj/src/domain/entities/movie.dart';
+import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
 import 'package:tmdb_prj/src/domain/usercases/genre/get_movie_genres.dart';
+import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_movies.dart';
+import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
 import 'package:tmdb_prj/src/domain/usercases/genre/get_tvshow_genres.dart';
-
-import '../../../../app/errors/failure.dart';
-import '../../../../domain/entities/genre.dart';
 
 part 'genre_event.dart';
 part 'genre_state.dart';
 
-abstract class GenreBloc extends Bloc<GenreEvent, GenreState> {
-  final GetMovieGenres getMovieGenres;
-  final GetTvShowGenres getTvShowGenres;
+class GenreBloc extends Bloc<GenreEvent, GenreState> {
+  GenreParentItems currentGenreTopBarSelected = GenreParentItems.movie;
 
-  GenreBloc({required this.getMovieGenres, required this.getTvShowGenres})
-      : super(const GenreTabSelectionState(selectionTabIndex: 0)) {
-    on<TabItemSelected>(
-      (event, emit) async {
-        emit(GenreTabSelectionState(selectionTabIndex: event.tabItemIndex));
+  Genre? selectedGenre;
 
-        emit(const GenresDataLoading());
+  GetMovieGenres getMovieGenres;
+  GetTvShowGenres getTvShowGenres;
+  GetSpecificGenreMovies getSpecificGenreMovies;
+  GetSpecificGenreTvShows getSpecificGenreTvShows;
 
-        if (event.tabItemIndex == 0) {
-          Either<Failur, Genre> response = await getMovieGenres.call();
+  GenreBloc(
+      {required this.getMovieGenres,
+      required this.getTvShowGenres,
+      required this.getSpecificGenreMovies,
+      required this.getSpecificGenreTvShows})
+      : super(GenreInitial()) {
+    on<TopTabbarItemTappedEvent>((event, emit) async {
+      /*
+         
+          todo: get list of top tabbar item AND first genre item related for body 
+       */
 
-          response.fold((left) => emit(const GenresDataFaile()),
-              (right) => emit(GenresDataSuccess(genres: response.right)));
-        } else {
-          Either<Failur, Genre> response = await getTvShowGenres.call();
+      currentGenreTopBarSelected = event.genreParentItems;
+      emit(const GenresListFetchLoadingState());
 
-          response.fold((left) => emit(const GenresDataFaile()),
-              (right) => emit(GenresDataSuccess(genres: response.right)));
-        }
+      Either<Failur, List<Genre>> result;
+      if (event.genreParentItems == GenreParentItems.movie) {
+        result = await getMovieGenres.call();
+      } else {
+        result = await getTvShowGenres.call();
+      }
+
+      result.fold(
+          (left) => emit(GenresListFetchFailedState(message: (left as ServerFailuer).errorMessage)),
+          (genres) {
+        selectedGenre = genres.first;
+        emit(GenresListFetchSuccessState(genres: genres));
+      });
+    });
+
+    on<GenreItemTappedEvent>(
+      (event, emit) {
+        // todo: get list of top tabbar item AND selected genre item related for body
       },
     );
 
-    on<GenreItemSelected>(
-      (event, emit) {},
+    on<MovieItemTappedEvent>(
+      (event, emit) {
+        // todo: go to movie detail page
+      },
+    );
+
+    on<TvShowItemTappedEvent>(
+      (event, emit) {
+        // todo: go to tv show detail page
+      },
     );
   }
-
-  void dispose() {}
 }
