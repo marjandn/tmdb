@@ -19,7 +19,15 @@ class PeopleResponse extends Equatable {
       );
 
   List<People> toEntity() =>
-      results?.map((e) => People(name: e.name, profilePath: e.profilePath)).toList() ?? [];
+      results
+          ?.map((e) => People(
+              totalPages: totalPages,
+              name: e.name,
+              profilePath: e.profilePath,
+              popularity: e.popularity,
+              knownForDepartment: e.knownForDepartment))
+          .toList() ??
+      [];
 
   @override
   List<Object?> get props => [

@@ -25,8 +25,11 @@ import 'package:tmdb_prj/src/domain/usercases/tvshow/get_latest_tvshows.dart';
 import 'package:tmdb_prj/src/domain/usercases/tvshow/get_popular_tvshows.dart';
 import 'package:tmdb_prj/src/presentation/pages/genre/bloc/genre_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/home/bloc/home_bloc.dart';
+import 'package:tmdb_prj/src/presentation/pages/people_list/bloc/people_list_bloc.dart';
+import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
 
 import '../domain/repositories/tvshow_repository.dart';
+import '../presentation/pages/movies_list/bloc/movies_list_bloc.dart';
 
 final GetIt injector = GetIt.instance;
 
@@ -101,4 +104,14 @@ Future<void> setupServiceLocator() async {
       getSpecificGenreMovies: injector<GetSpecificGenreMovies>(),
       getSpecificGenreTvShows: injector<GetSpecificGenreTvShows>(),
       getTvShowGenres: injector<GetTvShowGenres>()));
+
+  injector.registerSingleton<MoviesListBloc>(MoviesListBloc(
+      getPopularMovies: injector<GetPopularMovies>(),
+      getUpcomingMovies: injector<GetUpcomingMovies>()));
+  injector.registerSingleton<TvshowListBloc>(TvshowListBloc(
+      getPopularTvShows: injector<GetPopularTvShows>(),
+      getFeaturedTvShows: injector<GetFeaturedTvShows>()));
+
+  injector.registerSingleton<PeopleListBloc>(
+      PeopleListBloc(getPopularPeople: injector<GetPopularPeople>()));
 }

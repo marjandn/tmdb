@@ -14,9 +14,11 @@ class TvShow extends Equatable {
   final String? posterPath;
   final double? voteAverage;
   final int? voteCount;
+  final int? totalPage;
 
   const TvShow(
-      {this.backdropPath,
+      {this.totalPage,
+      this.backdropPath,
       this.firstAirDate,
       this.genreIds,
       this.id,
@@ -32,6 +34,7 @@ class TvShow extends Equatable {
 
   @override
   List<Object?> get props => [
+        totalPage,
         backdropPath,
         firstAirDate,
         genreIds,

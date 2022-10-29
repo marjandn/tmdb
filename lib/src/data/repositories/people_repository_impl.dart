@@ -5,15 +5,17 @@ import 'package:tmdb_prj/src/data/providers/remote/service/people_remote_datasou
 import 'package:tmdb_prj/src/domain/entities/people.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
 import 'package:tmdb_prj/src/domain/repositories/people_repository.dart';
+import 'package:tmdb_prj/src/domain/usercases/movie/get_popular_movies.dart';
 
 class PeopleRepositoryImpl extends PeopleRepository {
   final PeopleRemoteDataSource peopleRemoteDataSource;
 
   PeopleRepositoryImpl({required this.peopleRemoteDataSource});
   @override
-  Future<Either<Failur, List<People>>> getPopularPeople() async {
+  Future<Either<Failur, List<People>>> getPopularPeople({required PagingParam pagingParam}) async {
     try {
-      PeopleResponse peopleResponse = await peopleRemoteDataSource.getPopularPeople();
+      PeopleResponse peopleResponse =
+          await peopleRemoteDataSource.getPopularPeople(pagingParam: pagingParam);
 
       return Right(peopleResponse.toEntity());
     } on ServerException catch (error) {

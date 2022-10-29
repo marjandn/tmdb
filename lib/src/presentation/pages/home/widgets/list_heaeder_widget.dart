@@ -26,10 +26,13 @@ class ListHeaderWidget extends StatelessWidget {
               style: context.appTheme.textTheme.subtitle1,
             ),
           ),
-          Text("See All",
-              style: context.appTheme.textTheme.subtitle2?.copyWith(
-                color: AppColors.grayColor,
-              )),
+          InkWell(
+            onTap: () => seeAllCallback!(),
+            child: Text("See All",
+                style: context.appTheme.textTheme.subtitle2?.copyWith(
+                  color: AppColors.grayColor,
+                )),
+          ),
         ],
       ),
     );

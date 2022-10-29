@@ -4,3 +4,7 @@ class Constants {
 
   static const String imageBasePath = "https://image.tmdb.org/t/p/w500/";
 }
+
+enum MovieTypes { popular, featured, upcoming }
+
+enum TvshowTypes { popular, featured }

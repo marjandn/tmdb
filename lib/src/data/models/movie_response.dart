@@ -21,6 +21,7 @@ class MovieResponse extends Equatable {
   List<Movie> toEntity() =>
       results
           ?.map((e) => Movie(
+              totalPage: totalPages,
               adult: e.adult,
               backdropPath: e.backdropPath,
               genreIds: e.genreIds,

@@ -4,15 +4,16 @@ import 'package:tmdb_prj/src/app/errors/exceptions.dart';
 import 'package:tmdb_prj/src/data/models/movie_response.dart';
 import 'package:tmdb_prj/src/data/providers/remote/client/dio_base_client.dart';
 import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/domain/usercases/movie/get_popular_movies.dart';
 import 'package:tmdb_prj/src/presentation/pages/genre/genre_page.dart';
 
 abstract class MovieRemoteDataSource {
   Future<MovieResponse> getSpecificGenreMovies(GenreParams genreParams);
 
-  Future<MovieResponse> getPopularMovies();
-  Future<MovieResponse> getUpComingMovies();
-  Future<MovieResponse> getFeaturedMovies();
-  Future<MovieResponse> getLatestMovies();
+  Future<MovieResponse> getPopularMovies({required PagingParam pagingParam});
+  Future<MovieResponse> getUpComingMovies({required PagingParam pagingParam});
+  Future<MovieResponse> getFeaturedMovies({required PagingParam pagingParam});
+  Future<MovieResponse> getLatestMovies({required PagingParam pagingParam});
 }
 
 class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
@@ -26,9 +27,10 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   }
 
   @override
-  Future<MovieResponse> getPopularMovies() async {
+  Future<MovieResponse> getPopularMovies({required PagingParam pagingParam}) async {
     try {
-      Response response = await dioClient.getRequest(path: 'movie/popular');
+      Response response =
+          await dioClient.getRequest(path: 'movie/popular', queryParameters: pagingParam.toJson());
 
       if (response.statusCode == 200) {
         MovieResponse movieResponse = MovieResponse.fromJson(response.data);
@@ -43,9 +45,10 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   }
 
   @override
-  Future<MovieResponse> getFeaturedMovies() async {
+  Future<MovieResponse> getFeaturedMovies({required PagingParam pagingParam}) async {
     try {
-      Response response = await dioClient.getRequest(path: 'movie/top_rated');
+      Response response = await dioClient.getRequest(
+          path: 'movie/top_rated', queryParameters: pagingParam.toJson());
 
       if (response.statusCode == 200) {
         MovieResponse movieResponse = MovieResponse.fromJson(response.data);
@@ -60,9 +63,10 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   }
 
   @override
-  Future<MovieResponse> getUpComingMovies() async {
+  Future<MovieResponse> getUpComingMovies({required PagingParam pagingParam}) async {
     try {
-      Response response = await dioClient.getRequest(path: 'movie/upcoming');
+      Response response =
+          await dioClient.getRequest(path: 'movie/upcoming', queryParameters: pagingParam.toJson());
 
       if (response.statusCode == 200) {
         MovieResponse movieResponse = MovieResponse.fromJson(response.data);
@@ -77,9 +81,10 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   }
 
   @override
-  Future<MovieResponse> getLatestMovies() async {
+  Future<MovieResponse> getLatestMovies({required PagingParam pagingParam}) async {
     try {
-      Response response = await dioClient.getRequest(path: 'movie/latest');
+      Response response =
+          await dioClient.getRequest(path: 'movie/latest', queryParameters: pagingParam.toJson());
 
       if (response.statusCode == 200) {
         MovieResponse movieResponse = MovieResponse.fromJson(response.data);

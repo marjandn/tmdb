@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tmdb_prj/src/app/constants/constants.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
+import 'package:tmdb_prj/src/di/di.dart';
 import 'package:tmdb_prj/src/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/home/widgets/popular_tvshows_list_widget.dart';
+import 'package:tmdb_prj/src/presentation/pages/movies_list/movies_list_page.dart';
+import 'package:tmdb_prj/src/presentation/pages/people_list/bloc/people_list_bloc.dart';
+import 'package:tmdb_prj/src/presentation/pages/people_list/people_list_page.dart';
+import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
+import 'package:tmdb_prj/src/presentation/pages/tvshow_list/tvshow_list_page.dart';
 
+import '../movies_list/bloc/movies_list_bloc.dart';
 import 'widgets/featured_tvshows_list_widget.dart';
 import 'widgets/popular_people_list_widget.dart';
 import 'widgets/list_heaeder_widget.dart';
@@ -47,56 +55,91 @@ class _HomePageState extends State<HomePage> {
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: const [
-          SizedBox(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          const SizedBox(
             height: 16,
           ),
           ListHeaderWidget(
             headerTitle: "Today Popular Movies",
+            seeAllCallback: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => BlocProvider<MoviesListBloc>.value(
+                value: injector<MoviesListBloc>(),
+                child: const MoviesListPage(title: "Popular Movies", movieType: MovieTypes.popular),
+              ),
+            )),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
-          SizedBox(height: 300, child: PopularMoviesListWidget()),
-          SizedBox(
+          const SizedBox(height: 300, child: PopularMoviesListWidget()),
+          const SizedBox(
             height: 32,
           ),
           ListHeaderWidget(
             headerTitle: "Upcoming Movies",
+            seeAllCallback: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => BlocProvider<MoviesListBloc>.value(
+                value: injector<MoviesListBloc>(),
+                child:
+                    const MoviesListPage(title: "Upcoming Movies", movieType: MovieTypes.upcoming),
+              ),
+            )),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
-          SizedBox(height: 300, child: UpcomingMoviesListWidget()),
-          SizedBox(
+          const SizedBox(height: 300, child: UpcomingMoviesListWidget()),
+          const SizedBox(
             height: 32,
           ),
-          ListHeaderWidget(headerTitle: "Popular Persons"),
-          SizedBox(
+          ListHeaderWidget(
+            headerTitle: "Popular Persons",
+            seeAllCallback: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => BlocProvider<PeopleListBloc>.value(
+                value: injector<PeopleListBloc>(),
+                child: const PeopleListPage(title: "Popular Persons"),
+              ),
+            )),
+          ),
+          const SizedBox(
             height: 8,
           ),
-          SizedBox(height: 200, child: PopularPeopleListWidget()),
-          SizedBox(
+          const SizedBox(height: 200, child: PopularPeopleListWidget()),
+          const SizedBox(
             height: 32,
           ),
           ListHeaderWidget(
             headerTitle: "Featured Tv Shows",
+            seeAllCallback: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => BlocProvider<TvshowListBloc>.value(
+                value: injector<TvshowListBloc>(),
+                child: const TvShowListPage(
+                    title: "Featured Tv Shows", tvshowType: TvshowTypes.featured),
+              ),
+            )),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
-          SizedBox(height: 300, child: FeaturedTvShowsListWidget()),
-          SizedBox(
+          const SizedBox(height: 300, child: FeaturedTvShowsListWidget()),
+          const SizedBox(
             height: 32,
           ),
           ListHeaderWidget(
             headerTitle: "Popular Tv Shows",
+            seeAllCallback: () => Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => BlocProvider<TvshowListBloc>.value(
+                value: injector<TvshowListBloc>(),
+                child: const TvShowListPage(
+                    title: "Popular Tv Shows", tvshowType: TvshowTypes.popular),
+              ),
+            )),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
-          SizedBox(height: 300, child: PopularTvShowsListWidget()),
-          SizedBox(
+          const SizedBox(height: 300, child: PopularTvShowsListWidget()),
+          const SizedBox(
             height: 32,
           ),
         ]),

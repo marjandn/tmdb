@@ -15,9 +15,11 @@ class Movie extends Equatable {
   final bool? video;
   final double? voteAverage;
   final int? voteCount;
+  final int? totalPage;
 
   const Movie(
-      {this.adult,
+      {this.totalPage,
+      this.adult,
       this.backdropPath,
       this.genreIds,
       this.id,

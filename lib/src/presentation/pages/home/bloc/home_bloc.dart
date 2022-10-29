@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
-import 'package:tmdb_prj/src/app/bases/usecase.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
 import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import 'package:tmdb_prj/src/domain/entities/people.dart';
@@ -45,7 +44,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (event, emit) async {
         emit(const FeaturedMoviesFetchLoadingState());
 
-        Either<Failur, List<Movie>> movies = await getFeaturedMovies.call(const NoParam());
+        Either<Failur, List<Movie>> movies = await getFeaturedMovies.call(PagingParam(page: 1));
 
         movies.fold((left) => emit(const FeaturedMoviesFetchFailedState()),
             (right) => emit(FeaturedMoviesFetchSuccessState(movies: right)));
@@ -55,7 +54,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (event, emit) async {
         emit(const UpcomingMoviesFetchLoadingState());
 
-        Either<Failur, List<Movie>> movies = await getUpcomingMovies.call(const NoParam());
+        Either<Failur, List<Movie>> movies = await getUpcomingMovies.call(PagingParam(page: 1));
 
         movies.fold((left) => emit(const UpcomingMoviesFetchLoadingState()),
             (right) => emit(UpcomingMoviesFetchSuccessState(movies: right)));
@@ -65,7 +64,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (event, emit) async {
         emit(const PopularMoviesFetchLoadingState());
 
-        Either<Failur, List<Movie>> popularMovies = await getPopularMovies.call(const NoParam());
+        Either<Failur, List<Movie>> popularMovies =
+            await getPopularMovies.call(PagingParam(page: 1));
 
         popularMovies.fold((left) => emit(const PopularMoviesFetchFailedState()),
             (right) => emit(PopularMoviesFetchSuccessState(movies: right)));
@@ -77,7 +77,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (event, emit) async {
         emit(const PopularTvShowsFetchLoadingState());
 
-        Either<Failur, List<TvShow>> tvShows = await getPopularTvShows.call(const NoParam());
+        Either<Failur, List<TvShow>> tvShows = await getPopularTvShows.call(PagingParam(page: 1));
 
         tvShows.fold((left) => emit(const PopularTvShowsFetchFailedState()),
             (right) => emit(PopularTvShowsFetchSuccessState(tvShows: right)));
@@ -87,7 +87,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (event, emit) async {
         emit(const FeaturedTvShowsFetchLoadingState());
 
-        Either<Failur, List<TvShow>> tvShows = await getFeaturedTvShows.call(const NoParam());
+        Either<Failur, List<TvShow>> tvShows = await getFeaturedTvShows.call(PagingParam(page: 1));
 
         tvShows.fold((left) => emit(const FeaturedTvShowsFetchFailedState()),
             (right) => emit(FeaturedTvShowsFetchSuccessState(tvShows: right)));
@@ -98,7 +98,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<PopularPeopleFetchRequestEvent>(
       (event, emit) async {
         emit(const PopularPeopleFetchLoadingState());
-        Either<Failur, List<People>> popularPeople = await getPopularPeople.call(const NoParam());
+        Either<Failur, List<People>> popularPeople =
+            await getPopularPeople.call(PagingParam(page: 1));
 
         popularPeople.fold((left) => emit(const PopularPeopleFetchFailedState()),
             (right) => emit(PopularPeopleFetchSuccessState(people: right)));

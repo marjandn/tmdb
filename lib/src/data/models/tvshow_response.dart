@@ -21,6 +21,7 @@ class TvShowResponse extends Equatable {
   List<TvShow> toEntity() =>
       results
           ?.map((e) => TvShow(
+                totalPage: totalPages,
                 backdropPath: e.backdropPath,
                 firstAirDate: e.firstAirDate,
                 genreIds: e.genreIds,

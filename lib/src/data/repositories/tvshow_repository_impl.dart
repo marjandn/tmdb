@@ -6,6 +6,7 @@ import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
 import 'package:tmdb_prj/src/domain/repositories/tvshow_repository.dart';
 import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/domain/usercases/movie/get_popular_movies.dart';
 
 class TvShowRepositoryImpl extends TvShowRepository {
   TvShowRemoteDataSource tvShowRemoteDataSource;
@@ -19,9 +20,11 @@ class TvShowRepositoryImpl extends TvShowRepository {
   }
 
   @override
-  Future<Either<Failur, List<TvShow>>> getFeaturedTvShows() async {
+  Future<Either<Failur, List<TvShow>>> getFeaturedTvShows(
+      {required PagingParam pagingParam}) async {
     try {
-      TvShowResponse tvShowResponse = await tvShowRemoteDataSource.getFeaturedTvShows();
+      TvShowResponse tvShowResponse =
+          await tvShowRemoteDataSource.getFeaturedTvShows(pagingParam: pagingParam);
 
       return Right(tvShowResponse.toEntity());
     } on ServerException catch (error) {
@@ -30,9 +33,10 @@ class TvShowRepositoryImpl extends TvShowRepository {
   }
 
   @override
-  Future<Either<Failur, List<TvShow>>> getLatestTvShows() async {
+  Future<Either<Failur, List<TvShow>>> getLatestTvShows({required PagingParam pagingParam}) async {
     try {
-      TvShowResponse tvShowResponse = await tvShowRemoteDataSource.getLatestTvShows();
+      TvShowResponse tvShowResponse =
+          await tvShowRemoteDataSource.getLatestTvShows(pagingParam: pagingParam);
 
       return Right(tvShowResponse.toEntity());
     } on ServerException catch (error) {
@@ -41,9 +45,10 @@ class TvShowRepositoryImpl extends TvShowRepository {
   }
 
   @override
-  Future<Either<Failur, List<TvShow>>> getPopularTvShows() async {
+  Future<Either<Failur, List<TvShow>>> getPopularTvShows({required PagingParam pagingParam}) async {
     try {
-      TvShowResponse tvShowResponse = await tvShowRemoteDataSource.getPopularTvShows();
+      TvShowResponse tvShowResponse =
+          await tvShowRemoteDataSource.getPopularTvShows(pagingParam: pagingParam);
 
       return Right(tvShowResponse.toEntity());
     } on ServerException catch (error) {
