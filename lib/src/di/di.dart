@@ -26,6 +26,7 @@ import 'package:tmdb_prj/src/domain/usercases/tvshow/get_popular_tvshows.dart';
 import 'package:tmdb_prj/src/presentation/pages/genre/bloc/genre_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/people_list/bloc/people_list_bloc.dart';
+import 'package:tmdb_prj/src/presentation/pages/search/bloc/search_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
 
 import '../domain/repositories/tvshow_repository.dart';
@@ -104,6 +105,8 @@ Future<void> setupServiceLocator() async {
       getSpecificGenreMovies: injector<GetSpecificGenreMovies>(),
       getSpecificGenreTvShows: injector<GetSpecificGenreTvShows>(),
       getTvShowGenres: injector<GetTvShowGenres>()));
+
+  injector.registerSingleton<SearchBloc>(SearchBloc());
 
   injector.registerSingleton<MoviesListBloc>(MoviesListBloc(
       getPopularMovies: injector<GetPopularMovies>(),

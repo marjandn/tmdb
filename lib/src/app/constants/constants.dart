@@ -8,3 +8,5 @@ class Constants {
 enum MovieTypes { popular, featured, upcoming }
 
 enum TvshowTypes { popular, featured }
+
+enum SearchTypes { movie, tvshow, people }

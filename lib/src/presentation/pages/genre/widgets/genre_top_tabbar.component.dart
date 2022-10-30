@@ -57,8 +57,8 @@ class TopTabbarWidget extends StatelessWidget {
               left: context.select<GenreBloc, GenreParentItems>(
                           (GenreBloc bloc) => bloc.currentGenreTopBarSelected) ==
                       GenreParentItems.movie
-                  ? context.quarterWidthSize
-                  : context.halfWidthSize + context.quarterWidthSize,
+                  ? context.halfSecondWidthSize
+                  : context.halfSecondWidthSize * 3,
               duration: const Duration(seconds: 1),
               child: const Icon(
                 Icons.circle,

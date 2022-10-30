@@ -1,0 +1,18 @@
+part of 'search_bloc.dart';
+
+abstract class SearchState extends Equatable {
+  const SearchState();
+
+  @override
+  List<Object> get props => [];
+}
+
+class SearchInitial extends SearchState {}
+
+class SearchTopTabbarItemSelected extends SearchState {
+  final SearchTypes searchTypes;
+  const SearchTopTabbarItemSelected({required this.searchTypes});
+
+  @override
+  List<Object> get props => [searchTypes];
+}

@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 extension ContextExtensions on BuildContext {
   double get fullWidthSize => MediaQuery.of(this).size.width;
 
-  double get halfWidthSize => MediaQuery.of(this).size.width / 2;
+  double get thirdWidthSize => fullWidthSize / 3;
 
-  double get quarterWidthSize => halfWidthSize / 2;
+  double get halfThirdWidthSize => thirdWidthSize / 2;
+
+  double get secondWidthSize => fullWidthSize / 2;
+
+  double get halfSecondWidthSize => secondWidthSize / 2;
 }
