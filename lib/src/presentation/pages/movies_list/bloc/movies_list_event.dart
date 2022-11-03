@@ -8,17 +8,15 @@ abstract class MoviesListEvent extends Equatable {
 }
 
 class PopularMoviesRequestedEvent extends MoviesListEvent {
-  final int page;
-  const PopularMoviesRequestedEvent({required this.page});
+  const PopularMoviesRequestedEvent();
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [];
 }
 
 class UpcomingMoviesRequestedEvent extends MoviesListEvent {
-  final int page;
-  const UpcomingMoviesRequestedEvent({required this.page});
+  const UpcomingMoviesRequestedEvent();
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [];
 }

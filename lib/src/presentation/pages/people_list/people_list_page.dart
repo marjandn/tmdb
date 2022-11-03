@@ -6,6 +6,7 @@ import 'package:tmdb_prj/src/presentation/components/shared_widgets.dart';
 
 import 'bloc/people_list_bloc.dart';
 import 'widgets/people_item_widget.dart';
+import 'widgets/people_list_widget.dart';
 
 class PeopleListPage extends StatefulWidget {
   final String title;
@@ -17,11 +18,8 @@ class PeopleListPage extends StatefulWidget {
 
 class _PeopleListPageState extends State<PeopleListPage> {
   final ScrollController _scrollController = ScrollController();
-  bool _isLoading = true;
-  int _totalPage = 1;
-  List<People> allPeople = [];
-  int _currentPage = 0;
 
+  List<People> allPeople = [];
   @override
   void initState() {
     super.initState();
@@ -35,19 +33,18 @@ class _PeopleListPageState extends State<PeopleListPage> {
     });
   }
 
-  _loadMore() {
-    if (_currentPage < _totalPage) {
-      _isLoading = true;
-      context.read<PeopleListBloc>().add(PopularPeopleListRequestedEvent(page: ++_currentPage));
-    } else {
-      _isLoading = false;
-    }
-  }
+  _loadMore() => context.read<PeopleListBloc>().add(const PopularPeopleListRequestedEvent());
 
   @override
   void dispose() {
     _scrollController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    context.read<PeopleListBloc>().dispose();
+    super.didChangeDependencies();
   }
 
   @override
@@ -61,17 +58,10 @@ class _PeopleListPageState extends State<PeopleListPage> {
           builder: (context, state) {
             if (state is PeopleFetchRequestSuccessState) {
               allPeople.addAll(state.people);
-              _totalPage = state.people.first.totalPages ?? 1;
-              return ListView.builder(
-                controller: _scrollController,
-                padding: const EdgeInsets.only(top: 32),
-                itemCount: _isLoading ? allPeople.length + 1 : allPeople.length,
-                itemBuilder: (context, index) => (index < allPeople.length)
-                    ? PeopleItemWidget(people: allPeople[index])
-                    : (_isLoading)
-                        ? const CupertinoActivityIndicator()
-                        : const SizedBox(),
-              );
+              return PeopleListWidget(
+                  scrollController: _scrollController,
+                  isLoading: state.showLazyLoading,
+                  allPeople: allPeople);
             }
             return const CupertinoActivityIndicator();
           },

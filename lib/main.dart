@@ -6,6 +6,8 @@ import 'package:tmdb_prj/src/di/di.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/bloc/dashboard_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/dashboard_page.dart';
 
+import 'src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
+
 void main() async {
   await setupServiceLocator();
   runApp(BlocProvider(
@@ -22,8 +24,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: context.theme,
-      home: BlocProvider(
-        create: (context) => DashboardBloc(),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => DashboardBloc(),
+          ),
+          /*  BlocProvider(
+            create: (context) => injector<TvshowListBloc>(),
+          ), */
+        ],
         child: const DashboardPage(),
       ),
     );

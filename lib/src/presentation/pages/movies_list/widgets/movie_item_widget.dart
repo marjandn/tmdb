@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:tmdb_prj/src/app/config/colors/colors.dart';
 import 'package:tmdb_prj/src/app/constants/constants.dart';

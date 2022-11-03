@@ -7,10 +7,10 @@ import 'package:tmdb_prj/src/app/types/enums.dart';
 import 'package:tmdb_prj/src/domain/entities/genre.dart';
 import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_movie_genres.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_movies.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_tvshow_genres.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_movie_genres.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_tvshow_genres.dart';
 
 part 'genre_event.dart';
 part 'genre_state.dart';

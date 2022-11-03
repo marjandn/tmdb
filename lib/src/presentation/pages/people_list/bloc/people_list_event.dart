@@ -8,9 +8,8 @@ abstract class PeopleListEvent extends Equatable {
 }
 
 class PopularPeopleListRequestedEvent extends PeopleListEvent {
-  final int page;
-  const PopularPeopleListRequestedEvent({required this.page});
+  const PopularPeopleListRequestedEvent();
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [];
 }

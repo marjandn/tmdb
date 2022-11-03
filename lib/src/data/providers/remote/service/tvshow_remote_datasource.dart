@@ -2,8 +2,9 @@ import 'package:dio/dio.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
 import 'package:tmdb_prj/src/data/models/tvshow_response.dart';
 import 'package:tmdb_prj/src/data/providers/remote/client/dio_base_client.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
-import 'package:tmdb_prj/src/domain/usercases/movie/get_popular_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
 
 abstract class TvShowRemoteDataSource {
   Future<TvShowResponse> getSpecificGenreTvShows(GenreParams genreParams);
@@ -11,6 +12,8 @@ abstract class TvShowRemoteDataSource {
   Future<TvShowResponse> getPopularTvShows({required PagingParam pagingParam});
   Future<TvShowResponse> getFeaturedTvShows({required PagingParam pagingParam});
   Future<TvShowResponse> getLatestTvShows({required PagingParam pagingParam});
+
+  Future<TvShowResponse> searchTvshow({required SearchParams searchParams});
 }
 
 class TvShowRemoteDataSourceImpl extends TvShowRemoteDataSource {
@@ -27,11 +30,11 @@ class TvShowRemoteDataSourceImpl extends TvShowRemoteDataSource {
   @override
   Future<TvShowResponse> getFeaturedTvShows({required PagingParam pagingParam}) async {
     try {
-      Response response =
+      final Response response =
           await dioClient.getRequest(path: 'tv/top_rated', queryParameters: pagingParam.toJson());
 
       if (response.statusCode == 200) {
-        TvShowResponse tvShowResponse = TvShowResponse.fromJson(response.data);
+        final TvShowResponse tvShowResponse = TvShowResponse.fromJson(response.data);
 
         return tvShowResponse;
       }
@@ -45,11 +48,11 @@ class TvShowRemoteDataSourceImpl extends TvShowRemoteDataSource {
   @override
   Future<TvShowResponse> getLatestTvShows({required PagingParam pagingParam}) async {
     try {
-      Response response =
+      final Response response =
           await dioClient.getRequest(path: 'tv/latest', queryParameters: pagingParam.toJson());
 
       if (response.statusCode == 200) {
-        TvShowResponse tvShowResponse = TvShowResponse.fromJson(response.data);
+        final TvShowResponse tvShowResponse = TvShowResponse.fromJson(response.data);
 
         return tvShowResponse;
       }
@@ -63,15 +66,32 @@ class TvShowRemoteDataSourceImpl extends TvShowRemoteDataSource {
   @override
   Future<TvShowResponse> getPopularTvShows({required PagingParam pagingParam}) async {
     try {
-      Response response =
+      final Response response =
           await dioClient.getRequest(path: 'tv/popular', queryParameters: pagingParam.toJson());
 
       if (response.statusCode == 200) {
-        TvShowResponse tvShowResponse = TvShowResponse.fromJson(response.data);
+        final TvShowResponse tvShowResponse = TvShowResponse.fromJson(response.data);
 
         return tvShowResponse;
       }
 
+      throw ServerException(response.statusCode.toString());
+    } catch (error) {
+      throw ServerException(error.toString());
+    }
+  }
+
+  @override
+  Future<TvShowResponse> searchTvshow({required SearchParams searchParams}) async {
+    try {
+      final Response response =
+          await dioClient.getRequest(path: "search/tv", queryParameters: searchParams.toJson());
+
+      if (response.statusCode == 200) {
+        final TvShowResponse tvShowResponse = TvShowResponse.fromJson(response.data);
+
+        return tvShowResponse;
+      }
       throw ServerException(response.statusCode.toString());
     } catch (error) {
       throw ServerException(error.toString());

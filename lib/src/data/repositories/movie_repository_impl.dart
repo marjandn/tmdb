@@ -1,12 +1,13 @@
+import 'package:either_dart/either.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
 import 'package:tmdb_prj/src/data/models/movie_response.dart';
 import 'package:tmdb_prj/src/data/providers/remote/service/movie_remote_datasource.dart';
 import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
-import 'package:either_dart/src/either.dart';
 import 'package:tmdb_prj/src/domain/repositories/movie_repository.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
-import 'package:tmdb_prj/src/domain/usercases/movie/get_popular_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
 
 class MovieRepositoryImpl extends MovieRepository {
   MovieRemoteDataSource movieRemoteDataSource;
@@ -63,6 +64,18 @@ class MovieRepositoryImpl extends MovieRepository {
       return Right(movieResponse.toEntity());
     } on ServerException catch (error) {
       return Left(ServerFailuer(error.errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failur, List<Movie>>> searchMovies({required SearchParams searchParams}) async {
+    try {
+      MovieResponse movieResponse =
+          await movieRemoteDataSource.searchMovies(searchParam: searchParams);
+
+      return Right(movieResponse.toEntity());
+    } on ServerException catch (error) {
+      return Left(ServerFailuer(error.toString()));
     }
   }
 }

@@ -15,8 +15,9 @@ class PeopleFetchRequestFailedState extends PeopleListState {
 
 class PeopleFetchRequestSuccessState extends PeopleListState {
   final List<People> people;
-  const PeopleFetchRequestSuccessState({required this.people});
+  final bool showLazyLoading;
+  const PeopleFetchRequestSuccessState({required this.people, required this.showLazyLoading});
 
   @override
-  List<Object> get props => [people];
+  List<Object> get props => [people, showLazyLoading];
 }

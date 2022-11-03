@@ -6,7 +6,7 @@ import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
 import 'package:tmdb_prj/src/presentation/components/shared_widgets.dart';
 import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
 
-import 'widgets/tvshow_item_widget.dart';
+import 'widgets/tvshow_list_widget.dart';
 
 class TvShowListPage extends StatefulWidget {
   final String title;
@@ -19,14 +19,13 @@ class TvShowListPage extends StatefulWidget {
 
 class _TvShowListPageState extends State<TvShowListPage> {
   final ScrollController _scrollController = ScrollController();
-  bool _isLoading = true;
-  int _totalPage = 1;
+
   List<TvShow> allTvShows = [];
-  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
+
     _loadMore();
 
     _scrollController.addListener(() {
@@ -38,20 +37,25 @@ class _TvShowListPageState extends State<TvShowListPage> {
   }
 
   _loadMore() {
-    if (_currentPage < _totalPage) {
-      _isLoading = true;
-      switch (widget.tvshowType) {
-        case TvshowTypes.popular:
-          context.read<TvshowListBloc>().add(PopularTvshowFetchRequestEvent(page: ++_currentPage));
-          break;
-        default:
-          context.read<TvshowListBloc>().add(FeaturedTvshowFetchRequestEvent(page: ++_currentPage));
-          break;
-      }
-    } else {
-      _isLoading = false;
+    switch (widget.tvshowType) {
+      case TvshowTypes.popular:
+        context.read<TvshowListBloc>().add(const PopularTvshowFetchRequestEvent());
+        break;
+      default:
+        context.read<TvshowListBloc>().add(const FeaturedTvshowFetchRequestEvent());
+        break;
     }
   }
+
+  @override
+  void didChangeDependencies() {
+    // context.read<TvshowListBloc>().add(const PageInitEvent());
+    context.read<TvshowListBloc>().dispose();
+
+    super.didChangeDependencies();
+  }
+
+  late TvshowListBloc bloc;
 
   @override
   void dispose() {
@@ -70,17 +74,11 @@ class _TvShowListPageState extends State<TvShowListPage> {
           builder: (context, state) {
             if (state is TvshowFetchRequestSuccessState) {
               allTvShows.addAll(state.tvshows);
-              _totalPage = state.tvshows.first.totalPage ?? 1;
-              return ListView.builder(
-                controller: _scrollController,
-                padding: const EdgeInsets.only(top: 32),
-                itemCount: _isLoading ? allTvShows.length + 1 : allTvShows.length,
-                itemBuilder: (context, index) => (index < allTvShows.length)
-                    ? TvshowItemWidget(tvShow: allTvShows[index])
-                    : (_isLoading)
-                        ? const CupertinoActivityIndicator()
-                        : const SizedBox(),
-              );
+
+              return TvshowListWidget(
+                  scrollController: _scrollController,
+                  isShowLazyLoading: state.isShowLoading,
+                  allTvShows: allTvShows);
             }
             return const CupertinoActivityIndicator();
           },

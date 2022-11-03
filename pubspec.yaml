@@ -20,6 +20,7 @@ dependencies:
   get_it: ^7.2.0
   dio: ^4.0.6
   either_dart: ^0.2.0
+  easy_debounce: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:

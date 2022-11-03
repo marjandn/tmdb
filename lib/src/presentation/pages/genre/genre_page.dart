@@ -54,9 +54,9 @@ class _GenrePageState extends State<GenrePage> {
               height: 24,
             ),
             SizedBox(height: 45, child: GenresListWidget()),
-            Expanded(
+            /*  Expanded(
               child: FilmsListWidget(),
-            )
+            ) */
           ],
         ),
       ),

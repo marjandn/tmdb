@@ -2,7 +2,7 @@ part of 'movies_list_bloc.dart';
 
 abstract class MoviesListState extends Equatable {
   const MoviesListState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -19,9 +19,10 @@ class MoviesFetchFailedState extends MoviesListState {
 
 class MoviesFetchSuccessState extends MoviesListState {
   final List<Movie> movies;
+  final bool showLazyLoading;
 
-  const MoviesFetchSuccessState({required this.movies});
+  const MoviesFetchSuccessState({required this.movies, required this.showLazyLoading});
 
   @override
-  List<Object> get props => [movies];
+  List<Object> get props => [movies, showLazyLoading];
 }

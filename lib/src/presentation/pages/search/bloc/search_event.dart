@@ -14,3 +14,27 @@ class SearchTopTabbarItemSelectedEvent extends SearchEvent {
   @override
   List<Object> get props => [searchTypes];
 }
+
+class MovieSeachRequestedEvent extends SearchEvent {
+  final String query;
+  const MovieSeachRequestedEvent({required this.query});
+
+  @override
+  List<Object> get props => [query];
+}
+
+class TvShowSeachRequestedEvent extends SearchEvent {
+  final String query;
+  const TvShowSeachRequestedEvent({required this.query});
+
+  @override
+  List<Object> get props => [query];
+}
+
+class PeopleSeachRequestedEvent extends SearchEvent {
+  final String query;
+  const PeopleSeachRequestedEvent({required this.query});
+
+  @override
+  List<Object> get props => [query];
+}

@@ -111,11 +111,8 @@ class _HomePageState extends State<HomePage> {
           ListHeaderWidget(
             headerTitle: "Featured Tv Shows",
             seeAllCallback: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => BlocProvider<TvshowListBloc>.value(
-                value: injector<TvshowListBloc>(),
-                child: const TvShowListPage(
-                    title: "Featured Tv Shows", tvshowType: TvshowTypes.featured),
-              ),
+              builder: (context) => const TvShowListPage(
+                  title: "Featured Tv Shows", tvshowType: TvshowTypes.featured),
             )),
           ),
           const SizedBox(
@@ -128,8 +125,8 @@ class _HomePageState extends State<HomePage> {
           ListHeaderWidget(
             headerTitle: "Popular Tv Shows",
             seeAllCallback: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => BlocProvider<TvshowListBloc>.value(
-                value: injector<TvshowListBloc>(),
+              builder: (_) => BlocProvider<TvshowListBloc>(
+                create: (_) => injector<TvshowListBloc>(),
                 child: const TvShowListPage(
                     title: "Popular Tv Shows", tvshowType: TvshowTypes.popular),
               ),

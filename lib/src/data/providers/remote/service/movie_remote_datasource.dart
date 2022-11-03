@@ -1,11 +1,10 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
 import 'package:tmdb_prj/src/data/models/movie_response.dart';
 import 'package:tmdb_prj/src/data/providers/remote/client/dio_base_client.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
-import 'package:tmdb_prj/src/domain/usercases/movie/get_popular_movies.dart';
-import 'package:tmdb_prj/src/presentation/pages/genre/genre_page.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
 
 abstract class MovieRemoteDataSource {
   Future<MovieResponse> getSpecificGenreMovies(GenreParams genreParams);
@@ -14,6 +13,8 @@ abstract class MovieRemoteDataSource {
   Future<MovieResponse> getUpComingMovies({required PagingParam pagingParam});
   Future<MovieResponse> getFeaturedMovies({required PagingParam pagingParam});
   Future<MovieResponse> getLatestMovies({required PagingParam pagingParam});
+
+  Future<MovieResponse> searchMovies({required SearchParams searchParam});
 }
 
 class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
@@ -92,6 +93,22 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
         return movieResponse;
       }
 
+      throw ServerException(response.statusCode.toString());
+    } catch (error) {
+      throw ServerException(error.toString());
+    }
+  }
+
+  @override
+  Future<MovieResponse> searchMovies({required SearchParams searchParam}) async {
+    try {
+      Response response =
+          await dioClient.getRequest(path: "search/movie", queryParameters: searchParam.toJson());
+      if (response.statusCode == 200) {
+        MovieResponse movieResponse = MovieResponse.fromJson(response.data);
+
+        return movieResponse;
+      }
       throw ServerException(response.statusCode.toString());
     } catch (error) {
       throw ServerException(error.toString());

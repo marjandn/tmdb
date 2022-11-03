@@ -5,8 +5,9 @@ import 'package:tmdb_prj/src/data/providers/remote/service/tvshow_remote_datasou
 import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
 import 'package:tmdb_prj/src/domain/repositories/tvshow_repository.dart';
-import 'package:tmdb_prj/src/domain/usercases/genre/get_specific_genre_tvshows.dart';
-import 'package:tmdb_prj/src/domain/usercases/movie/get_popular_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
 
 class TvShowRepositoryImpl extends TvShowRepository {
   TvShowRemoteDataSource tvShowRemoteDataSource;
@@ -49,6 +50,18 @@ class TvShowRepositoryImpl extends TvShowRepository {
     try {
       TvShowResponse tvShowResponse =
           await tvShowRemoteDataSource.getPopularTvShows(pagingParam: pagingParam);
+
+      return Right(tvShowResponse.toEntity());
+    } on ServerException catch (error) {
+      return Left(ServerFailuer(error.errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failur, List<TvShow>>> searchTvshow({required SearchParams searchParams}) async {
+    try {
+      final TvShowResponse tvShowResponse =
+          await tvShowRemoteDataSource.searchTvshow(searchParams: searchParams);
 
       return Right(tvShowResponse.toEntity());
     } on ServerException catch (error) {

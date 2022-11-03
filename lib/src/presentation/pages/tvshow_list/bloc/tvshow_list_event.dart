@@ -7,18 +7,20 @@ abstract class TvshowListEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class PageInitEvent extends TvshowListEvent {
+  const PageInitEvent();
+}
+
 class PopularTvshowFetchRequestEvent extends TvshowListEvent {
-  final int page;
-  const PopularTvshowFetchRequestEvent({required this.page});
+  const PopularTvshowFetchRequestEvent();
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [];
 }
 
 class FeaturedTvshowFetchRequestEvent extends TvshowListEvent {
-  final int page;
-  const FeaturedTvshowFetchRequestEvent({required this.page});
+  const FeaturedTvshowFetchRequestEvent();
 
   @override
-  List<Object> get props => [page];
+  List<Object> get props => [];
 }

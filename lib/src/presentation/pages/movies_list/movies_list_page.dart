@@ -7,6 +7,7 @@ import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import '../../components/shared_widgets.dart';
 import 'bloc/movies_list_bloc.dart';
 import 'widgets/movie_item_widget.dart';
+import 'widgets/movies_list_widget.dart';
 
 class MoviesListPage extends StatefulWidget {
   final String title;
@@ -19,10 +20,8 @@ class MoviesListPage extends StatefulWidget {
 
 class _MoviesListPageState extends State<MoviesListPage> {
   final ScrollController _scrollController = ScrollController();
-  bool _isLoading = true;
-  int _totalPage = 1;
+
   List<Movie> allMovies = [];
-  int _currentPage = 0;
 
   @override
   void initState() {
@@ -38,19 +37,20 @@ class _MoviesListPageState extends State<MoviesListPage> {
   }
 
   _loadMore() {
-    if (_currentPage < _totalPage) {
-      _isLoading = true;
-      switch (widget.movieType) {
-        case MovieTypes.popular:
-          context.read<MoviesListBloc>().add(PopularMoviesRequestedEvent(page: ++_currentPage));
-          break;
-        default:
-          context.read<MoviesListBloc>().add(UpcomingMoviesRequestedEvent(page: ++_currentPage));
-          break;
-      }
-    } else {
-      _isLoading = false;
+    switch (widget.movieType) {
+      case MovieTypes.popular:
+        context.read<MoviesListBloc>().add(const PopularMoviesRequestedEvent());
+        break;
+      default:
+        context.read<MoviesListBloc>().add(const UpcomingMoviesRequestedEvent());
+        break;
     }
+  }
+
+  @override
+  void didChangeDependencies() {
+    context.read<MoviesListBloc>().dispose();
+    super.didChangeDependencies();
   }
 
   @override
@@ -72,17 +72,10 @@ class _MoviesListPageState extends State<MoviesListPage> {
           builder: (context, state) {
             if (state is MoviesFetchSuccessState) {
               allMovies.addAll(state.movies);
-              _totalPage = state.movies.first.totalPage ?? 1;
-              return ListView.builder(
-                controller: _scrollController,
-                padding: const EdgeInsets.only(top: 32),
-                itemCount: _isLoading ? allMovies.length + 1 : allMovies.length,
-                itemBuilder: (context, index) => (index < allMovies.length)
-                    ? MovieItemWidget(movie: allMovies[index])
-                    : (_isLoading)
-                        ? const CupertinoActivityIndicator()
-                        : const SizedBox(),
-              );
+              return MoviesListWidget(
+                  scrollController: _scrollController,
+                  showLazyLoading: state.showLazyLoading,
+                  allMovies: allMovies);
             }
             return const CupertinoActivityIndicator();
           },
