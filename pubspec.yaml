@@ -21,6 +21,7 @@ dependencies:
   dio: ^4.0.6
   either_dart: ^0.2.0
   easy_debounce: ^2.0.2+1
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

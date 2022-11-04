@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
 import 'package:tmdb_prj/src/data/models/movie_response.dart';
+import 'package:tmdb_prj/src/data/providers/local/movie_local_datasource.dart';
 import 'package:tmdb_prj/src/data/providers/remote/client/dio_base_client.dart';
 import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
@@ -18,7 +20,7 @@ abstract class MovieRemoteDataSource {
 }
 
 class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
-  DioBaseClient dioClient;
+  final DioBaseClient dioClient;
 
   MovieRemoteDataSourceImpl({required this.dioClient});
   @override

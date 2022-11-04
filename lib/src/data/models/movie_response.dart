@@ -39,6 +39,12 @@ class MovieResponse extends Equatable {
           .toList() ??
       [];
 
+  Map<String, dynamic> toJson() => {
+        'page': page,
+        'total_pages': totalPages,
+        'results': results?.map((e) => e.toJson()).toList()
+      };
+
   @override
   List<Object?> get props => [
         page,
@@ -118,4 +124,21 @@ class Results extends Equatable {
         voteAverage,
         voteCount
       ];
+
+  Map<String, dynamic> toJson() => {
+        'adult': adult,
+        'backdrop_path': backdropPath,
+        'genre_ids': genreIds,
+        'id': id,
+        'original_language': originalLanguage,
+        'original_title': originalTitle,
+        'overview': overview,
+        'popularity': popularity,
+        'poster_path': posterPath,
+        'release_date': releaseDate,
+        'title': title,
+        'video': video,
+        'vote_average': voteAverage,
+        'vote_count': voteCount,
+      };
 }

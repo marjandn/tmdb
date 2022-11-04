@@ -1,4 +1,6 @@
 import 'package:get_it/get_it.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tmdb_prj/src/data/providers/local/movie_local_datasource.dart';
 import 'package:tmdb_prj/src/data/providers/remote/client/dio_base_client.dart';
 import 'package:tmdb_prj/src/data/providers/remote/service/genre_remote_datasource.dart';
 import 'package:tmdb_prj/src/data/providers/remote/service/movie_remote_datasource.dart';
@@ -37,11 +39,26 @@ import '../presentation/pages/movies_list/bloc/movies_list_bloc.dart';
 
 final GetIt injector = GetIt.instance;
 
-Future<void> setupServiceLocator() async {
+Future<void> setupAllLocators() async {
+  await registerSharedPreference();
+  registerSyncLocators();
+}
+
+Future<void> registerSharedPreference() async {
+  // * SharedPreferences db
+  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  injector.registerSingleton<SharedPreferences>(sharedPreferences);
+}
+
+registerSyncLocators() {
   // * Dio client
   injector.registerSingleton<DioBaseClient>(DioBaseClient());
 
-  // * Remote Services
+  // * Local DataSources
+  injector.registerLazySingleton<MovieLocalDataSource>(
+      () => MovieLocalDataSourceImpl(sharedPreferences: injector.get<SharedPreferences>()));
+
+  // * Remote DataSources
   injector.registerLazySingleton<GenreRemoteSource>(
     () => GenreRemoteSourceImpl(dioClient: injector<DioBaseClient>()),
   );
@@ -57,8 +74,9 @@ Future<void> setupServiceLocator() async {
   // * Repositories
   injector.registerLazySingleton<GenreRepository>(
       () => GenreRepositoryImpl(genreRemoteSource: injector<GenreRemoteSource>()));
-  injector.registerLazySingleton<MovieRepository>(
-      () => MovieRepositoryImpl(movieRemoteDataSource: injector<MovieRemoteDataSource>()));
+  injector.registerLazySingleton<MovieRepository>(() => MovieRepositoryImpl(
+      movieRemoteDataSource: injector<MovieRemoteDataSource>(),
+      movieLocalDataSource: injector<MovieLocalDataSource>()));
   injector.registerLazySingleton<TvShowRepository>(
       () => TvShowRepositoryImpl(tvShowRemoteDataSource: injector<TvShowRemoteDataSource>()));
   injector.registerLazySingleton<PeopleRepository>(

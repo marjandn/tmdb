@@ -51,4 +51,6 @@ class Movie extends Equatable {
         voteAverage,
         voteCount
       ];
+
+  Map<String, dynamic> toJson() => {};
 }
