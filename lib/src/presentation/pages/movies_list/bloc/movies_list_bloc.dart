@@ -16,6 +16,7 @@ class MoviesListBloc extends Bloc<MoviesListEvent, MoviesListState> {
   final GetPopularMovies getPopularMovies;
   final GetUpcomingMovies getUpcomingMovies;
 
+  // todo: Use stream for paging
   int _totalPage = 1;
   int _currentPage = 0;
 
@@ -29,7 +30,6 @@ class MoviesListBloc extends Bloc<MoviesListEvent, MoviesListState> {
     required this.getUpcomingMovies,
   }) : super(MoviesListInitial()) {
     on<PopularMoviesRequestedEvent>((event, emit) async {
-      print("page is: $_currentPage");
       if (!_showLazyLoading()) return;
 
       Either<Failur, List<Movie>> movies =

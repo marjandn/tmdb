@@ -6,9 +6,17 @@ class People extends Equatable {
   final double? popularity;
   final String? knownForDepartment;
   final int? totalPages;
+  final String? biography;
+  final String? placeOfBirth;
 
   const People(
-      {this.name, this.profilePath, this.popularity, this.knownForDepartment, this.totalPages});
+      {this.name,
+      this.profilePath,
+      this.popularity,
+      this.knownForDepartment,
+      this.totalPages,
+      this.biography,
+      this.placeOfBirth});
 
   @override
   List<Object?> get props => [name, profilePath];

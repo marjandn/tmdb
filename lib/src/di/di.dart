@@ -19,6 +19,8 @@ import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.da
 import 'package:tmdb_prj/src/domain/usecases/genre/get_tvshow_genres.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_featured_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_latest_movies.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/get_movie_credits.dart';
+import 'package:tmdb_prj/src/domain/usecases/movie/get_movie_pictures.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_upcoming_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
@@ -35,6 +37,8 @@ import 'package:tmdb_prj/src/presentation/pages/search/bloc/search_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
 
 import '../domain/repositories/tvshow_repository.dart';
+import '../domain/usecases/movie/get_movie_details.dart';
+import '../presentation/pages/movie/bloc/movie_details_bloc.dart';
 import '../presentation/pages/movies_list/bloc/movies_list_bloc.dart';
 
 final GetIt injector = GetIt.instance;
@@ -117,6 +121,12 @@ registerSyncLocators() {
   injector.registerLazySingleton<SearchPeople>(
     () => SearchPeople(peopleRepository: injector<PeopleRepository>()),
   );
+  injector.registerSingleton<GetMovieDetails>(
+      GetMovieDetails(movieRepository: injector<MovieRepository>()));
+  injector.registerSingleton<GetMoviePictures>(
+      GetMoviePictures(movieRepository: injector<MovieRepository>()));
+  injector.registerSingleton<GetMovieCredits>(
+      GetMovieCredits(movieRepository: injector<MovieRepository>()));
 
   // * BLoC
   injector.registerSingleton<HomeBloc>(HomeBloc(
@@ -153,4 +163,8 @@ registerSyncLocators() {
 
   injector.registerSingleton<PeopleListBloc>(
       PeopleListBloc(getPopularPeople: injector<GetPopularPeople>()));
+  injector.registerSingleton<MovieDetailsBloc>(MovieDetailsBloc(
+      getMovieDetails: injector<GetMovieDetails>(),
+      getMovieCredits: injector<GetMovieCredits>(),
+      getMoviePictures: injector<GetMoviePictures>()));
 }

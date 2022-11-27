@@ -1,6 +1,8 @@
 import 'package:either_dart/either.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
 import 'package:tmdb_prj/src/data/models/people_response.dart';
+import 'package:tmdb_prj/src/data/models/person_pictures_response.dart';
+import 'package:tmdb_prj/src/data/providers/remote/params/details_param.dart';
 import 'package:tmdb_prj/src/data/providers/remote/service/people_remote_datasource.dart';
 import 'package:tmdb_prj/src/domain/entities/people.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
@@ -29,6 +31,31 @@ class PeopleRepositoryImpl extends PeopleRepository {
     try {
       final PeopleResponse peopleResponse =
           await peopleRemoteDataSource.searchPeople(params: searchParams);
+
+      return Right(peopleResponse.toEntity());
+    } on ServerException catch (error) {
+      return Left(ServerFailuer(error.errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failur, People>> getPersonDetails({required PersonDetailsParam param}) async {
+    try {
+      final PersonRespone peopleResponse =
+          await peopleRemoteDataSource.getPersonDetails(param: param);
+
+      return Right(peopleResponse.toEntity());
+    } on ServerException catch (error) {
+      return Left(ServerFailuer(error.errorMessage));
+    }
+  }
+
+  @override
+  Future<Either<Failur, List<String>>> getPersonPictures(
+      {required PersonDetailsParam param}) async {
+    try {
+      final PersonPicturesResponnse peopleResponse =
+          await peopleRemoteDataSource.getPersonPictures(param: param);
 
       return Right(peopleResponse.toEntity());
     } on ServerException catch (error) {

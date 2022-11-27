@@ -3,7 +3,7 @@ import 'package:tmdb_prj/src/domain/entities/people.dart';
 
 class PeopleResponse extends Equatable {
   final int? page;
-  final List<Results>? results;
+  final List<PersonRespone>? results;
   final int? totalPages;
   final int? totalResults;
 
@@ -15,7 +15,7 @@ class PeopleResponse extends Equatable {
         totalResults: json['total_results'],
         results: json['results'] == null
             ? []
-            : (json['results'] as List<dynamic>).map((e) => Results.fromJson(e)).toList(),
+            : (json['results'] as List<dynamic>).map((e) => PersonRespone.fromJson(e)).toList(),
       );
 
   List<People> toEntity() =>
@@ -38,7 +38,7 @@ class PeopleResponse extends Equatable {
       ];
 }
 
-class Results extends Equatable {
+class PersonRespone extends Equatable {
   final bool? adult;
   final int? gender;
   final int? id;
@@ -47,18 +47,32 @@ class Results extends Equatable {
   final String? name;
   final double? popularity;
   final String? profilePath;
+  final String? biography;
+  final String? placeOfBirth;
 
-  const Results(
-      {this.adult,
-      this.gender,
-      this.id,
-      this.knownFor,
-      this.knownForDepartment,
-      this.name,
-      this.popularity,
-      this.profilePath});
+  const PersonRespone({
+    this.adult,
+    this.gender,
+    this.id,
+    this.knownFor,
+    this.knownForDepartment,
+    this.name,
+    this.popularity,
+    this.profilePath,
+    this.biography,
+    this.placeOfBirth,
+  });
 
-  factory Results.fromJson(Map<String, dynamic> json) => Results(
+  People toEntity() => People(
+      name: name,
+      profilePath: profilePath,
+      popularity: popularity,
+      knownForDepartment: knownForDepartment,
+      totalPages: 0,
+      biography: biography,
+      placeOfBirth: placeOfBirth);
+
+  factory PersonRespone.fromJson(Map<String, dynamic> json) => PersonRespone(
         adult: json['adult'],
         gender: json['gender'],
         id: json['id'],
@@ -69,6 +83,8 @@ class Results extends Equatable {
         name: json['name'],
         popularity: json['popularity'],
         profilePath: json['profile_path'],
+        biography: json['biography'],
+        placeOfBirth: json['place_of_birth'],
       );
 
   @override

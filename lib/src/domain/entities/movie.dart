@@ -4,7 +4,7 @@ class Movie extends Equatable {
   final bool? adult;
   final String? backdropPath;
   final List<int>? genreIds;
-  final int? id;
+  final int id;
   final String? originalLanguage;
   final String? originalTitle;
   final String? overview;
@@ -22,7 +22,7 @@ class Movie extends Equatable {
       this.adult,
       this.backdropPath,
       this.genreIds,
-      this.id,
+      required this.id,
       this.originalLanguage,
       this.originalTitle,
       this.overview,

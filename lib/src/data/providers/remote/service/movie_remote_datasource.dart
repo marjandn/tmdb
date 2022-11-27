@@ -1,33 +1,33 @@
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
+import 'package:tmdb_prj/src/data/models/movie_credits_response.dart';
+import 'package:tmdb_prj/src/data/models/movie_details_response.dart';
+import 'package:tmdb_prj/src/data/models/movie_pictures_response.dart';
 import 'package:tmdb_prj/src/data/models/movie_response.dart';
-import 'package:tmdb_prj/src/data/providers/local/movie_local_datasource.dart';
 import 'package:tmdb_prj/src/data/providers/remote/client/dio_base_client.dart';
-import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
+import 'package:tmdb_prj/src/data/providers/remote/params/details_param.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
 
 abstract class MovieRemoteDataSource {
-  Future<MovieResponse> getSpecificGenreMovies(GenreParams genreParams);
-
   Future<MovieResponse> getPopularMovies({required PagingParam pagingParam});
   Future<MovieResponse> getUpComingMovies({required PagingParam pagingParam});
   Future<MovieResponse> getFeaturedMovies({required PagingParam pagingParam});
   Future<MovieResponse> getLatestMovies({required PagingParam pagingParam});
 
   Future<MovieResponse> searchMovies({required SearchParams searchParam});
+
+  Future<MovieDetailsResponse> getMovieDetails({required MovieDetailsParam detailsParam});
+  Future<MoviePicturesResponse> getMoviePictures({required MovieDetailsParam detailsParam});
+  Future<MovieCreditsResponse> getMovieCredits({required MovieDetailsParam detailsParam});
 }
 
 class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   final DioBaseClient dioClient;
 
   MovieRemoteDataSourceImpl({required this.dioClient});
-  @override
-  Future<MovieResponse> getSpecificGenreMovies(GenreParams genreParams) {
-    // TODO: implement getSpecificGenreMovies
-    throw UnimplementedError();
-  }
+
+  // todo: Replace Response(from Dio lib) class with a wrapper class
 
   @override
   Future<MovieResponse> getPopularMovies({required PagingParam pagingParam}) async {
@@ -110,6 +110,54 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
         MovieResponse movieResponse = MovieResponse.fromJson(response.data);
 
         return movieResponse;
+      }
+      throw ServerException(response.statusCode.toString());
+    } catch (error) {
+      throw ServerException(error.toString());
+    }
+  }
+
+  @override
+  Future<MovieDetailsResponse> getMovieDetails({required MovieDetailsParam detailsParam}) async {
+    try {
+      Response response = await dioClient.getRequest(path: 'movie/${detailsParam.movieId}');
+
+      if (response.statusCode == 200) {
+        MovieDetailsResponse movieDetailsResponse = MovieDetailsResponse.fromJson(response.data);
+
+        return movieDetailsResponse;
+      }
+      throw ServerException(response.statusCode.toString());
+    } catch (error) {
+      throw ServerException(error.toString());
+    }
+  }
+
+  @override
+  Future<MovieCreditsResponse> getMovieCredits({required MovieDetailsParam detailsParam}) async {
+    try {
+      Response response = await dioClient.getRequest(path: 'movie/${detailsParam.movieId}/credits');
+
+      if (response.statusCode == 200) {
+        MovieCreditsResponse movieDetailsResponse = MovieCreditsResponse.fromJson(response.data);
+
+        return movieDetailsResponse;
+      }
+      throw ServerException(response.statusCode.toString());
+    } catch (error) {
+      throw ServerException(error.toString());
+    }
+  }
+
+  @override
+  Future<MoviePicturesResponse> getMoviePictures({required MovieDetailsParam detailsParam}) async {
+    try {
+      Response response = await dioClient.getRequest(path: 'movie/${detailsParam.movieId}/images');
+
+      if (response.statusCode == 200) {
+        MoviePicturesResponse movieDetailsResponse = MoviePicturesResponse.fromJson(response.data);
+
+        return movieDetailsResponse;
       }
       throw ServerException(response.statusCode.toString());
     } catch (error) {

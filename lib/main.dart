@@ -6,8 +6,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tmdb_prj/src/app/config/themes/bloc/theme_bloc.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
 import 'package:tmdb_prj/src/di/di.dart';
+import 'package:tmdb_prj/src/domain/entities/movie_details.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/bloc/dashboard_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/dashboard_page.dart';
+import 'package:tmdb_prj/src/presentation/pages/movie/movie_details_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,18 +28,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: context.theme,
-        home: MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (context) => DashboardBloc(),
-            ),
-            /*  BlocProvider(
-              create: (context) => injector<TvshowListBloc>(),
-            ), */
-          ],
-          child: const DashboardPage(),
-        ));
+      debugShowCheckedModeBanner: false,
+      theme: context.theme,
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => DashboardBloc(),
+          ),
+        ],
+        child: const DashboardPage(),
+      ),
+    );
   }
 }

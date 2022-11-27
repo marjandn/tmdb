@@ -2,16 +2,23 @@ import 'dart:developer';
 
 import 'package:either_dart/either.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
+import 'package:tmdb_prj/src/data/models/movie_details_response.dart';
+import 'package:tmdb_prj/src/data/models/movie_pictures_response.dart';
 import 'package:tmdb_prj/src/data/models/movie_response.dart';
 import 'package:tmdb_prj/src/data/providers/local/movie_local_datasource.dart';
+import 'package:tmdb_prj/src/data/providers/remote/params/details_param.dart';
 import 'package:tmdb_prj/src/data/providers/remote/service/movie_remote_datasource.dart';
 import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
+import 'package:tmdb_prj/src/domain/entities/movie_details.dart';
+import 'package:tmdb_prj/src/domain/entities/movie_credits.dart';
 import 'package:tmdb_prj/src/domain/repositories/movie_repository.dart';
 import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
 import 'package:tmdb_prj/src/presentation/pages/movies_list/bloc/movies_list_bloc.dart';
+
+import '../models/movie_credits_response.dart';
 
 class MovieRepositoryImpl extends MovieRepository {
   final MovieRemoteDataSource movieRemoteDataSource;
@@ -82,6 +89,43 @@ class MovieRepositoryImpl extends MovieRepository {
           await movieRemoteDataSource.searchMovies(searchParam: searchParams);
 
       return Right(movieResponse.toEntity());
+    } on ServerException catch (error) {
+      return Left(ServerFailuer(error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failur, List<MovieCredits>>> getMovieCredits(
+      {required MovieDetailsParam param}) async {
+    try {
+      MovieCreditsResponse movieResponse =
+          await movieRemoteDataSource.getMovieCredits(detailsParam: param);
+
+      return Right(movieResponse.toEntity());
+    } on ServerException catch (error) {
+      return Left(ServerFailuer(error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failur, MovieDetails>> getMovieDetails({required MovieDetailsParam param}) async {
+    try {
+      MovieDetailsResponse movieResponse =
+          await movieRemoteDataSource.getMovieDetails(detailsParam: param);
+
+      return Right(movieResponse.toEntity());
+    } on ServerException catch (error) {
+      return Left(ServerFailuer(error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failur, List<String>>> getMoviePictures({required MovieDetailsParam param}) async {
+    try {
+      MoviePicturesResponse movieResponse =
+          await movieRemoteDataSource.getMoviePictures(detailsParam: param);
+
+      return Right(movieResponse.toEnity());
     } on ServerException catch (error) {
       return Left(ServerFailuer(error.toString()));
     }
