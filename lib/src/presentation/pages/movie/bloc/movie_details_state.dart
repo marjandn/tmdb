@@ -44,7 +44,7 @@ class MoviePicturesSuccessState extends MovieDetailsState {
   List<Object> get props => [pictures];
 }
 
-// * MovieCredits
+// * Credits
 class MovieCreditsLoadingState extends MovieDetailsState {
   const MovieCreditsLoadingState();
 }
@@ -54,7 +54,7 @@ class MovieCreditsFailedState extends MovieDetailsState {
 }
 
 class MovieCreditsSuccessState extends MovieDetailsState {
-  final List<MovieCredits> credits;
+  final List<Credits> credits;
   const MovieCreditsSuccessState(this.credits);
 
   @override

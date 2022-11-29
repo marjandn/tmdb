@@ -10,6 +10,7 @@ import '../../components/shared_components/credits_list_widget.dart';
 import '../../components/shared_components/tags_list_widget.dart';
 import 'bloc/movie_details_bloc.dart';
 import 'widgets/movie_details_header_widget.dart';
+import 'widgets/movie_primary_details_widget.dart';
 
 class MovieDetailsPage extends StatefulWidget {
   final int movieId;
@@ -50,7 +51,7 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
                   return const CupertinoActivityIndicator();
                 }
                 if (state is MoviePrimaryDetailsSuccessState) {
-                  return PrimaryDetailsPartWidget(movieDetails: state.movieDetails);
+                  return MoviePrimaryDetailsPartWidget(movieDetails: state.movieDetails);
                 } else {
                   return const SizedBox();
                 }
@@ -147,85 +148,6 @@ class _MovieDetailsPageState extends State<MovieDetailsPage> {
           ),
         ]),
       ),
-    );
-  }
-}
-
-class PrimaryDetailsPartWidget extends StatelessWidget {
-  final MovieDetails movieDetails;
-  const PrimaryDetailsPartWidget({Key? key, required this.movieDetails}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          movieDetails.originalTitle,
-          style: context.appTheme.textTheme.titleLarge,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        Row(
-          children: [
-            Text(
-              movieDetails.releaseDate,
-              style: context.appTheme.textTheme.labelMedium,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              movieDetails.productionCounties.first,
-              style: context.appTheme.textTheme.labelMedium,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            Text(
-              movieDetails.runtime.toString(),
-              style: context.appTheme.textTheme.labelMedium,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        TagsListWidget(
-          tags: movieDetails.genres,
-        ),
-        const SizedBox(
-          height: 32,
-        ),
-        Text(
-          "Spoken Languages",
-          style: context.appTheme.textTheme.titleMedium,
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        TagsListWidget(
-          tags: movieDetails.spokenLanguages,
-        ),
-        const SizedBox(
-          height: 32,
-        ),
-        Text(
-          "Plot Summary",
-          style: context.appTheme.textTheme.titleMedium,
-        ),
-        const SizedBox(
-          height: 12,
-        ),
-        Text(
-          movieDetails.overview,
-          style: context.appTheme.textTheme.bodyMedium,
-        ),
-        const SizedBox(
-          height: 32,
-        ),
-      ],
     );
   }
 }

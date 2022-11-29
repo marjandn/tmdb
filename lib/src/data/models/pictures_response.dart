@@ -1,10 +1,10 @@
-class MoviePicturesResponse {
+class PicturesResponse {
   final List<PosterResponse> posters;
 
-  MoviePicturesResponse(this.posters);
+  PicturesResponse(this.posters);
 
-  factory MoviePicturesResponse.fromJson(Map<String, dynamic> json) {
-    return MoviePicturesResponse(json['posters'] == null
+  factory PicturesResponse.fromJson(Map<String, dynamic> json) {
+    return PicturesResponse(json['posters'] == null
         ? []
         : (json['posters'] as List).map((e) => PosterResponse.fromJson(e)).toList());
   }

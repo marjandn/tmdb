@@ -1,10 +1,12 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tmdb_prj/src/app/config/colors/colors.dart';
+import 'package:tmdb_prj/src/app/config/themes/bloc/theme_bloc.dart';
 import 'package:tmdb_prj/src/app/constants/constants.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
 import 'package:tmdb_prj/src/di/di.dart';
 import 'package:tmdb_prj/src/presentation/pages/home/bloc/home_bloc.dart';
-import 'package:tmdb_prj/src/presentation/pages/home/widgets/popular_tvshows_list_widget.dart';
 import 'package:tmdb_prj/src/presentation/pages/movies_list/movies_list_page.dart';
 import 'package:tmdb_prj/src/presentation/pages/people_list/bloc/people_list_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/people_list/people_list_page.dart';
@@ -12,12 +14,12 @@ import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_blo
 import 'package:tmdb_prj/src/presentation/pages/tvshow_list/tvshow_list_page.dart';
 
 import '../movies_list/bloc/movies_list_bloc.dart';
-import 'widgets/featured_tvshows_list_widget.dart';
+import 'widgets/tvshows_list_widget.dart';
 import 'widgets/popular_people_list_widget.dart';
 import 'widgets/list_heaeder_widget.dart';
-import 'widgets/popular_movies_list_widget.dart';
-import 'widgets/upcoming_movies_list_widget.dart';
+import 'widgets/movies_list_widget.dart';
 
+// todo: Build your custome image slider according to UI
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -46,10 +48,14 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () => context.read<ThemeBloc>().add(const ThemeChangePressedEvent()),
           icon: Icon(
-            Icons.settings_rounded,
-            color: context.appTheme.focusColor,
+            (context.read<ThemeBloc>().state is DarkThemeState)
+                ? Icons.sunny
+                : Icons.nightlight_round,
+            color: (context.read<ThemeBloc>().state is DarkThemeState)
+                ? AppColors.goldColor
+                : AppColors.blackColor,
           ),
         ),
       ),
@@ -71,7 +77,21 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 8,
           ),
-          const SizedBox(height: 300, child: PopularMoviesListWidget()),
+          SizedBox(
+              height: 300,
+              child: BlocBuilder<HomeBloc, HomeState>(
+                buildWhen: (previous, current) =>
+                    current is PopularMoviesFetchFailedState ||
+                    current is PopularMoviesFetchLoadingState ||
+                    current is PopularMoviesFetchSuccessState,
+                builder: (context, state) {
+                  if (state is PopularMoviesFetchSuccessState) {
+                    return MoviesListWidget(movies: state.movies);
+                  }
+
+                  return const CupertinoActivityIndicator();
+                },
+              )),
           const SizedBox(
             height: 32,
           ),
@@ -88,7 +108,21 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 8,
           ),
-          const SizedBox(height: 300, child: UpcomingMoviesListWidget()),
+          SizedBox(
+              height: 300,
+              child: BlocBuilder<HomeBloc, HomeState>(
+                buildWhen: (previous, current) =>
+                    current is UpcomingMoviesFetchFailedState ||
+                    current is UpcomingMoviesFetchLoadingState ||
+                    current is UpcomingMoviesFetchSuccessState,
+                builder: (context, state) {
+                  if (state is UpcomingMoviesFetchSuccessState) {
+                    return MoviesListWidget(movies: state.movies);
+                  }
+
+                  return const CupertinoActivityIndicator();
+                },
+              )),
           const SizedBox(
             height: 32,
           ),
@@ -118,7 +152,21 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 8,
           ),
-          const SizedBox(height: 300, child: FeaturedTvShowsListWidget()),
+          SizedBox(
+              height: 300,
+              child: BlocBuilder<HomeBloc, HomeState>(
+                buildWhen: (previous, current) =>
+                    current is FeaturedTvShowsFetchFailedState ||
+                    current is FeaturedTvShowsFetchLoadingState ||
+                    current is FeaturedTvShowsFetchSuccessState,
+                builder: (context, state) {
+                  if (state is FeaturedTvShowsFetchSuccessState) {
+                    return TvShowsListWidget(tvShows: state.tvShows);
+                  }
+
+                  return const CupertinoActivityIndicator();
+                },
+              )),
           const SizedBox(
             height: 32,
           ),
@@ -135,7 +183,21 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 8,
           ),
-          const SizedBox(height: 300, child: PopularTvShowsListWidget()),
+          SizedBox(
+              height: 300,
+              child: BlocBuilder<HomeBloc, HomeState>(
+                buildWhen: (previous, current) =>
+                    current is PopularTvShowsFetchFailedState ||
+                    current is PopularTvShowsFetchLoadingState ||
+                    current is PopularTvShowsFetchSuccessState,
+                builder: (context, state) {
+                  if (state is PopularTvShowsFetchSuccessState) {
+                    return TvShowsListWidget(tvShows: state.tvShows);
+                  }
+
+                  return const CupertinoActivityIndicator();
+                },
+              )),
           const SizedBox(
             height: 32,
           ),

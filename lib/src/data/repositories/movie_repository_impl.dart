@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:either_dart/either.dart';
 import 'package:tmdb_prj/src/app/errors/exceptions.dart';
 import 'package:tmdb_prj/src/data/models/movie_details_response.dart';
-import 'package:tmdb_prj/src/data/models/movie_pictures_response.dart';
+import 'package:tmdb_prj/src/data/models/pictures_response.dart';
 import 'package:tmdb_prj/src/data/models/movie_response.dart';
 import 'package:tmdb_prj/src/data/providers/local/movie_local_datasource.dart';
 import 'package:tmdb_prj/src/data/providers/remote/params/details_param.dart';
@@ -11,25 +11,18 @@ import 'package:tmdb_prj/src/data/providers/remote/service/movie_remote_datasour
 import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import 'package:tmdb_prj/src/app/errors/failure.dart';
 import 'package:tmdb_prj/src/domain/entities/movie_details.dart';
-import 'package:tmdb_prj/src/domain/entities/movie_credits.dart';
+import 'package:tmdb_prj/src/domain/entities/credits.dart';
 import 'package:tmdb_prj/src/domain/repositories/movie_repository.dart';
-import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
-import 'package:tmdb_prj/src/presentation/pages/movies_list/bloc/movies_list_bloc.dart';
 
-import '../models/movie_credits_response.dart';
+import '../models/credits_response.dart';
 
 class MovieRepositoryImpl extends MovieRepository {
   final MovieRemoteDataSource movieRemoteDataSource;
   final MovieLocalDataSource movieLocalDataSource;
 
   MovieRepositoryImpl({required this.movieRemoteDataSource, required this.movieLocalDataSource});
-  @override
-  Future<Either<Failur, Movie>> getSpecificGenreMovies({required GenreParams genreParams}) {
-    // TODO: implement getSpecificGenreMovies
-    throw UnimplementedError();
-  }
 
   @override
   Future<Either<Failur, List<Movie>>> getPopularMovies({required PagingParam pagingParam}) async {
@@ -95,10 +88,9 @@ class MovieRepositoryImpl extends MovieRepository {
   }
 
   @override
-  Future<Either<Failur, List<MovieCredits>>> getMovieCredits(
-      {required MovieDetailsParam param}) async {
+  Future<Either<Failur, List<Credits>>> getMovieCredits({required MovieDetailsParam param}) async {
     try {
-      MovieCreditsResponse movieResponse =
+      CreditsResponse movieResponse =
           await movieRemoteDataSource.getMovieCredits(detailsParam: param);
 
       return Right(movieResponse.toEntity());
@@ -122,7 +114,7 @@ class MovieRepositoryImpl extends MovieRepository {
   @override
   Future<Either<Failur, List<String>>> getMoviePictures({required MovieDetailsParam param}) async {
     try {
-      MoviePicturesResponse movieResponse =
+      PicturesResponse movieResponse =
           await movieRemoteDataSource.getMoviePictures(detailsParam: param);
 
       return Right(movieResponse.toEnity());

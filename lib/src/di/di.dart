@@ -14,8 +14,6 @@ import 'package:tmdb_prj/src/domain/repositories/genre_repository.dart';
 import 'package:tmdb_prj/src/domain/repositories/movie_repository.dart';
 import 'package:tmdb_prj/src/domain/repositories/people_repository.dart';
 import 'package:tmdb_prj/src/domain/usecases/genre/get_movie_genres.dart';
-import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_movies.dart';
-import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
 import 'package:tmdb_prj/src/domain/usecases/genre/get_tvshow_genres.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_featured_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_latest_movies.dart';
@@ -24,6 +22,8 @@ import 'package:tmdb_prj/src/domain/usecases/movie/get_movie_pictures.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_upcoming_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/search_movie.dart';
+import 'package:tmdb_prj/src/domain/usecases/people/get_person_details.dart';
+import 'package:tmdb_prj/src/domain/usecases/people/get_person_pictures.dart';
 import 'package:tmdb_prj/src/domain/usecases/people/get_popular_people.dart';
 import 'package:tmdb_prj/src/domain/usecases/people/search_people.dart';
 import 'package:tmdb_prj/src/domain/usecases/tvshow/get_featured_tvshows.dart';
@@ -33,11 +33,16 @@ import 'package:tmdb_prj/src/domain/usecases/tvshow/search_tvshow.dart';
 import 'package:tmdb_prj/src/presentation/pages/genre/bloc/genre_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/home/bloc/home_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/people_list/bloc/people_list_bloc.dart';
+import 'package:tmdb_prj/src/presentation/pages/person/bloc/person_details_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/search/bloc/search_bloc.dart';
+import 'package:tmdb_prj/src/presentation/pages/tvshow/bloc/tvshow_details_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
 
 import '../domain/repositories/tvshow_repository.dart';
 import '../domain/usecases/movie/get_movie_details.dart';
+import '../domain/usecases/tvshow/get_tvshow_credits.dart';
+import '../domain/usecases/tvshow/get_tvshow_details.dart';
+import '../domain/usecases/tvshow/get_tvshow_pictures.dart';
 import '../presentation/pages/movie/bloc/movie_details_bloc.dart';
 import '../presentation/pages/movies_list/bloc/movies_list_bloc.dart';
 
@@ -92,10 +97,6 @@ registerSyncLocators() {
       () => GetMovieGenres(genreRepository: injector<GenreRepository>()));
   injector.registerLazySingleton<GetTvShowGenres>(
       () => GetTvShowGenres(genreRepository: injector<GenreRepository>()));
-  injector.registerLazySingleton<GetSpecificGenreMovies>(
-      () => GetSpecificGenreMovies(movieRepository: injector<MovieRepository>()));
-  injector.registerLazySingleton<GetSpecificGenreTvShows>(
-      () => GetSpecificGenreTvShows(tvShowRepository: injector<TvShowRepository>()));
 
   injector.registerLazySingleton<GetPopularMovies>(
       () => GetPopularMovies(movieRepository: injector<MovieRepository>()));
@@ -128,6 +129,18 @@ registerSyncLocators() {
   injector.registerSingleton<GetMovieCredits>(
       GetMovieCredits(movieRepository: injector<MovieRepository>()));
 
+  injector.registerSingleton<GetTvshowDetails>(
+      GetTvshowDetails(tvShowRepository: injector<TvShowRepository>()));
+  injector.registerSingleton<GetTvshowCredits>(
+      GetTvshowCredits(tvShowRepository: injector<TvShowRepository>()));
+  injector.registerSingleton<GetTvshowPictures>(
+      GetTvshowPictures(tvShowRepository: injector<TvShowRepository>()));
+
+  injector.registerSingleton<GetPersonDetails>(
+      GetPersonDetails(peopleRepository: injector<PeopleRepository>()));
+  injector.registerSingleton<GetPersonPictures>(
+      GetPersonPictures(peopleRepository: injector<PeopleRepository>()));
+
   // * BLoC
   injector.registerSingleton<HomeBloc>(HomeBloc(
     getPopularMovies: injector<GetPopularMovies>(),
@@ -140,10 +153,7 @@ registerSyncLocators() {
     getUpcomingMovies: injector<GetUpcomingMovies>(),
   ));
   injector.registerSingleton<GenreBloc>(GenreBloc(
-      getMovieGenres: injector<GetMovieGenres>(),
-      getSpecificGenreMovies: injector<GetSpecificGenreMovies>(),
-      getSpecificGenreTvShows: injector<GetSpecificGenreTvShows>(),
-      getTvShowGenres: injector<GetTvShowGenres>()));
+      getMovieGenres: injector<GetMovieGenres>(), getTvShowGenres: injector<GetTvShowGenres>()));
 
   injector.registerSingleton<SearchBloc>(SearchBloc(
     searchMovie: injector<SearchMovie>(),
@@ -163,8 +173,18 @@ registerSyncLocators() {
 
   injector.registerSingleton<PeopleListBloc>(
       PeopleListBloc(getPopularPeople: injector<GetPopularPeople>()));
-  injector.registerSingleton<MovieDetailsBloc>(MovieDetailsBloc(
+
+  injector.registerFactory<MovieDetailsBloc>(() => MovieDetailsBloc(
       getMovieDetails: injector<GetMovieDetails>(),
       getMovieCredits: injector<GetMovieCredits>(),
       getMoviePictures: injector<GetMoviePictures>()));
+
+  injector.registerFactory<TvshowDetailsBloc>(() => TvshowDetailsBloc(
+      getTvshowCredits: injector<GetTvshowCredits>(),
+      getTvshowDetails: injector<GetTvshowDetails>(),
+      getTvshowPictures: injector<GetTvshowPictures>()));
+
+  injector.registerFactory<PersonDetailsBloc>(() => PersonDetailsBloc(
+      getPersonDetails: injector<GetPersonDetails>(),
+      getPersonPictures: injector<GetPersonPictures>()));
 }

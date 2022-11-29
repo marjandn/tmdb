@@ -1,15 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tmdb_prj/src/app/config/themes/bloc/theme_bloc.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
 import 'package:tmdb_prj/src/di/di.dart';
-import 'package:tmdb_prj/src/domain/entities/movie_details.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/bloc/dashboard_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/dashboard/dashboard_page.dart';
-import 'package:tmdb_prj/src/presentation/pages/movie/movie_details_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

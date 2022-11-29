@@ -10,5 +10,8 @@ class AppColors {
   static const focusColor = Color(0xFFE72625);
 
   static const grayColor = Color.fromARGB(255, 177, 177, 177);
+  static const shadowColorDark = Color.fromARGB(124, 83, 87, 143);
+  static const shadowColorLight = Color.fromARGB(217, 203, 203, 203);
   static const goldColor = Color(0xFFFCC419);
+  static const blackColor = Color.fromARGB(255, 63, 63, 63);
 }

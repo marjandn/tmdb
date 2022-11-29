@@ -8,6 +8,7 @@ class ThemesManager {
   late final Color secondryColor;
   late final Color primaryColorLight;
   late final Color focusColor;
+  late final Color shadowColor;
   late final TextTheme textTheme;
   late final IconThemeData primaryIconTheme;
 
@@ -16,6 +17,7 @@ class ThemesManager {
         secondryColor = AppColors.primaryColorDark,
         primaryColorLight = AppColors.secondryColorDark,
         focusColor = AppColors.focusColor,
+        shadowColor = AppColors.shadowColorLight,
         textTheme = Typography.blackCupertino.apply(displayColor: AppColors.primaryColorDark),
         primaryIconTheme = const IconThemeData(color: AppColors.primaryColorDark, size: 25);
 
@@ -24,6 +26,7 @@ class ThemesManager {
         secondryColor = AppColors.primaryColor,
         primaryColorLight = AppColors.secondryColor,
         focusColor = AppColors.focusColor,
+        shadowColor = AppColors.shadowColorDark,
         textTheme = Typography.whiteCupertino,
         primaryIconTheme = const IconThemeData(color: AppColors.primaryColor, size: 25);
 
@@ -36,6 +39,6 @@ class ThemesManager {
         textTheme: textTheme,
         primaryIconTheme: primaryIconTheme,
         dividerColor: AppColors.grayColor,
-        shadowColor: AppColors.grayColor,
+        shadowColor: shadowColor,
       );
 }

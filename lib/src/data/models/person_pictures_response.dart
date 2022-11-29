@@ -3,8 +3,11 @@ class PersonPicturesResponnse {
 
   PersonPicturesResponnse(this.profiles);
 
-  factory PersonPicturesResponnse.fromJson(Map<String, dynamic> json) =>
-      PersonPicturesResponnse(json['profiles']);
+  factory PersonPicturesResponnse.fromJson(Map<String, dynamic> json) => PersonPicturesResponnse(
+        (json['profiles'] == null)
+            ? []
+            : (json['profiles'] as List).map((e) => PictureItemResponse.fromJson(e)).toList(),
+      );
 
   List<String> toEntity() => profiles.map((e) => e.picturePath).toList();
 }

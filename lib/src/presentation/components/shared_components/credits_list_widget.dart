@@ -1,11 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tmdb_prj/src/app/config/colors/styles.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
-import 'package:tmdb_prj/src/domain/entities/movie_credits.dart';
+import 'package:tmdb_prj/src/domain/entities/credits.dart';
 import 'package:tmdb_prj/src/presentation/pages/movie/bloc/movie_details_bloc.dart';
 
 class CreditsListWidget extends StatelessWidget {
-  final List<MovieCredits> credits;
+  final List<Credits> credits;
   const CreditsListWidget({
     Key? key,
     required this.credits,
@@ -26,7 +28,7 @@ class CreditsListWidget extends StatelessWidget {
 }
 
 class CreditItemWidget extends StatelessWidget {
-  final MovieCredits credit;
+  final Credits credit;
   const CreditItemWidget({
     Key? key,
     required this.credit,
@@ -41,15 +43,15 @@ class CreditItemWidget extends StatelessWidget {
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
             width: 150,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                      color: context.appTheme.shadowColor,
-                      blurRadius: 5,
-                      offset: const Offset(0, 4)),
-                ],
-                image: DecorationImage(image: NetworkImage(credit.profilePath), fit: BoxFit.cover)),
+            decoration: AppStyles(context).imageOvalContainerDecoration,
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: credit.profilePath,
+                placeholder: (context, url) =>
+                    Image.asset("assets/images/film_placeholder.png", fit: BoxFit.cover),
+                fit: BoxFit.cover,
+              ),
+            ),
           ),
         ),
         const SizedBox(

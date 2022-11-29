@@ -87,6 +87,7 @@ class PeopleRemoteDataSourceImpl extends PeopleRemoteDataSource {
 
       throw ServerException(response.statusCode.toString());
     } catch (error) {
+      print(error.toString());
       throw ServerException(error.toString());
     }
   }

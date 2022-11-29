@@ -3,7 +3,7 @@ import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
 
 class TvShowResponse extends Equatable {
   final int? page;
-  final List<Results>? results;
+  final List<Result>? results;
   final int? totalPages;
   final int? totalResults;
 
@@ -13,7 +13,7 @@ class TvShowResponse extends Equatable {
         page: json['page'],
         results: (json['results'] == null)
             ? []
-            : (json['results'] as List<dynamic>).map((v) => Results.fromJson(v)).toList(),
+            : (json['results'] as List<dynamic>).map((v) => Result.fromJson(v)).toList(),
         totalPages: json['total_pages'],
         totalResults: json['total_results'],
       );
@@ -43,11 +43,11 @@ class TvShowResponse extends Equatable {
   List<Object?> get props => [page, results, totalPages, totalResults];
 }
 
-class Results extends Equatable {
+class Result extends Equatable {
   final String? backdropPath;
   final String? firstAirDate;
   final List<int>? genreIds;
-  final int? id;
+  final int id;
   final String? name;
   final List<String>? originCountry;
   final String? originalLanguage;
@@ -58,11 +58,11 @@ class Results extends Equatable {
   final double? voteAverage;
   final int? voteCount;
 
-  const Results(
+  const Result(
       {this.backdropPath,
       this.firstAirDate,
       this.genreIds,
-      this.id,
+      required this.id,
       this.name,
       this.originCountry,
       this.originalLanguage,
@@ -73,7 +73,7 @@ class Results extends Equatable {
       this.voteAverage,
       this.voteCount});
 
-  factory Results.fromJson(Map<String, dynamic> json) => Results(
+  factory Result.fromJson(Map<String, dynamic> json) => Result(
         backdropPath: json['backdrop_path'],
         firstAirDate: json['first_air_date'],
         genreIds: json['genre_ids'].cast<int>(),

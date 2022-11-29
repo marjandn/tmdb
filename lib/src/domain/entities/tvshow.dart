@@ -4,7 +4,7 @@ class TvShow extends Equatable {
   final String? backdropPath;
   final String? firstAirDate;
   final List<int>? genreIds;
-  final int? id;
+  final int id;
   final String? name;
   final List<String>? originCountry;
   final String? originalLanguage;
@@ -21,7 +21,7 @@ class TvShow extends Equatable {
       this.backdropPath,
       this.firstAirDate,
       this.genreIds,
-      this.id,
+      required this.id,
       this.name,
       this.originCountry,
       this.originalLanguage,

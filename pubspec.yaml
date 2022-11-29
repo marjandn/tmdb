@@ -22,6 +22,7 @@ dependencies:
   either_dart: ^0.2.0
   easy_debounce: ^2.0.2+1
   shared_preferences: ^2.0.15
+  cached_network_image: ^3.2.3
 
 dev_dependencies:
   flutter_test:

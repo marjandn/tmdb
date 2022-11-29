@@ -38,7 +38,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     on<MovieSeachRequestedEvent>(
       (event, emit) async {
-        print("We are in MovieSearch Event");
         if (_currentPage == 0) emit(const CenterLoadingStateState());
         if (event.query.isNotEmpty) {
           if (!_showLazyLoading()) return;
@@ -55,7 +54,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
     on<TvShowSeachRequestedEvent>(
       (event, emit) async {
-        print("We are in TvShowSearch Event");
         if (_currentPage == 0) emit(const CenterLoadingStateState());
         if (event.query.isNotEmpty) {
           if (!_showLazyLoading()) return;
@@ -71,9 +69,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       },
     );
 
+    // todo: Resolve this -> when search sth else paging doesn't reset
     on<PeopleSeachRequestedEvent>(
       (event, emit) async {
-        print("We are in PeopleSearch Event");
         if (_currentPage == 0) emit(const CenterLoadingStateState());
         if (event.query.isNotEmpty) {
           if (!_showLazyLoading()) return;
@@ -82,6 +80,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
               await searchPeople.call(SearchParams(query: event.query, page: ++_currentPage));
 
           people.fold((left) => emit(const DataFetchFailedState()), (right) {
+            print(right.length);
             _totalPage = right.first.totalPages ?? 1;
             emit(PeopleFetchSuccessState(people: right, showLazyLoading: _showLazyLoading()));
           });

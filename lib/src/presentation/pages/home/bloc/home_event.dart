@@ -20,14 +20,6 @@ class UpcomingMoviesFetchRequestedEvent extends HomeEvent {
   const UpcomingMoviesFetchRequestedEvent();
 }
 
-class MovieItemTappedEvent extends HomeEvent {
-  final Movie movie;
-  const MovieItemTappedEvent({required this.movie});
-
-  @override
-  List<Object> get props => [movie];
-}
-
 // * TvShows
 class PopularTvShowsFetchRequestedEvent extends HomeEvent {
   const PopularTvShowsFetchRequestedEvent();
@@ -35,14 +27,6 @@ class PopularTvShowsFetchRequestedEvent extends HomeEvent {
 
 class FeaturedTvShowsFetchRequestedEvent extends HomeEvent {
   const FeaturedTvShowsFetchRequestedEvent();
-}
-
-class TvShowItemTappedEvent extends HomeEvent {
-  final TvShow tvShow;
-  const TvShowItemTappedEvent({required this.tvShow});
-
-  @override
-  List<Object> get props => [tvShow];
 }
 
 // * People

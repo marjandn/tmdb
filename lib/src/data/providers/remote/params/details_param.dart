@@ -13,3 +13,9 @@ class PersonDetailsParam {
 
   PersonDetailsParam({required this.personId});
 }
+
+class TvshowDetailsParam {
+  final int tvshowId;
+
+  TvshowDetailsParam({required this.tvshowId});
+}

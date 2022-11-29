@@ -8,8 +8,6 @@ import 'package:tmdb_prj/src/domain/entities/genre.dart';
 import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
 import 'package:tmdb_prj/src/domain/usecases/genre/get_movie_genres.dart';
-import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_movies.dart';
-import 'package:tmdb_prj/src/domain/usecases/genre/get_specific_genre_tvshows.dart';
 import 'package:tmdb_prj/src/domain/usecases/genre/get_tvshow_genres.dart';
 
 part 'genre_event.dart';
@@ -22,15 +20,11 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
 
   GetMovieGenres getMovieGenres;
   GetTvShowGenres getTvShowGenres;
-  GetSpecificGenreMovies getSpecificGenreMovies;
-  GetSpecificGenreTvShows getSpecificGenreTvShows;
 
-  GenreBloc(
-      {required this.getMovieGenres,
-      required this.getTvShowGenres,
-      required this.getSpecificGenreMovies,
-      required this.getSpecificGenreTvShows})
-      : super(GenreInitial()) {
+  GenreBloc({
+    required this.getMovieGenres,
+    required this.getTvShowGenres,
+  }) : super(GenreInitial()) {
     on<TopTabbarItemTappedEvent>((event, emit) async {
       /*
          
@@ -54,23 +48,5 @@ class GenreBloc extends Bloc<GenreEvent, GenreState> {
         emit(GenresListFetchSuccessState(genres: genres));
       });
     });
-
-    on<GenreItemTappedEvent>(
-      (event, emit) {
-        // todo: get list of top tabbar item AND selected genre item related for body
-      },
-    );
-
-    on<MovieItemTappedEvent>(
-      (event, emit) {
-        // todo: go to movie detail page
-      },
-    );
-
-    on<TvShowItemTappedEvent>(
-      (event, emit) {
-        // todo: go to tv show detail page
-      },
-    );
   }
 }

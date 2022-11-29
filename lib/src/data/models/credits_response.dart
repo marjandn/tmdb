@@ -1,12 +1,12 @@
-import 'package:tmdb_prj/src/domain/entities/movie_credits.dart';
+import 'package:tmdb_prj/src/domain/entities/credits.dart';
 
-class MovieCreditsResponse {
+class CreditsResponse {
   final List<CastResponse> cast;
   final List<CrewResponse> crew;
 
-  MovieCreditsResponse(this.cast, this.crew);
+  CreditsResponse(this.cast, this.crew);
 
-  factory MovieCreditsResponse.fromJson(Map<String, dynamic> json) => MovieCreditsResponse(
+  factory CreditsResponse.fromJson(Map<String, dynamic> json) => CreditsResponse(
         json['cast'] == null
             ? []
             : (json['cast'] as List).map((e) => CastResponse.fromJson(e)).toList(),
@@ -15,13 +15,13 @@ class MovieCreditsResponse {
             : (json['crew'] as List).map((e) => CrewResponse.fromJson(e)).toList(),
       );
 
-  List<MovieCredits> toEntity() => cast
+  List<Credits> toEntity() => cast
       .where((element) => element.profile_path != null && element.profile_path!.isNotEmpty)
-      .map((e) => MovieCredits(e.profile_path!, e.name, e.known_for_department))
+      .map((e) => Credits(e.profile_path!, e.name, e.known_for_department))
       .toList()
     ..addAll(crew
         .where((element) => element.profile_path != null && element.profile_path!.isNotEmpty)
-        .map((e) => MovieCredits(e.profile_path!, e.name, e.known_for_department))
+        .map((e) => Credits(e.profile_path!, e.name, e.known_for_department))
         .toList());
 }
 

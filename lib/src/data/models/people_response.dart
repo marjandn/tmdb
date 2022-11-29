@@ -15,15 +15,16 @@ class PeopleResponse extends Equatable {
         totalResults: json['total_results'],
         results: json['results'] == null
             ? []
-            : (json['results'] as List<dynamic>).map((e) => PersonRespone.fromJson(e)).toList(),
+            : (json['results'] as List).map((e) => PersonRespone.fromJson(e)).toList(),
       );
 
   List<People> toEntity() =>
       results
           ?.map((e) => People(
+              id: e.id,
               totalPages: totalPages,
               name: e.name,
-              profilePath: e.profilePath,
+              profile: e.profilePath,
               popularity: e.popularity,
               knownForDepartment: e.knownForDepartment))
           .toList() ??
@@ -41,7 +42,7 @@ class PeopleResponse extends Equatable {
 class PersonRespone extends Equatable {
   final bool? adult;
   final int? gender;
-  final int? id;
+  final int id;
   final List<KnownFor>? knownFor;
   final String? knownForDepartment;
   final String? name;
@@ -53,7 +54,7 @@ class PersonRespone extends Equatable {
   const PersonRespone({
     this.adult,
     this.gender,
-    this.id,
+    required this.id,
     this.knownFor,
     this.knownForDepartment,
     this.name,
@@ -64,8 +65,9 @@ class PersonRespone extends Equatable {
   });
 
   People toEntity() => People(
+      id: id,
       name: name,
-      profilePath: profilePath,
+      profile: profilePath,
       popularity: popularity,
       knownForDepartment: knownForDepartment,
       totalPages: 0,
@@ -76,12 +78,12 @@ class PersonRespone extends Equatable {
         adult: json['adult'],
         gender: json['gender'],
         id: json['id'],
-        knownFor: (json['known_for'] != null)
+        knownFor: (json['known_for'] == null)
             ? []
-            : json['known_for'].forEach((v) => KnownFor.fromJson(v)),
+            : (json['known_for'] as List).map((v) => KnownFor.fromJson(v)).toList(),
         knownForDepartment: json['known_for_department'],
         name: json['name'],
-        popularity: json['popularity'],
+        popularity: json['popularity']?.toDouble(),
         profilePath: json['profile_path'],
         biography: json['biography'],
         placeOfBirth: json['place_of_birth'],
@@ -134,7 +136,7 @@ class KnownFor extends Equatable {
 
   factory KnownFor.fromJson(Map<String, dynamic> json) => KnownFor(
         adult: json['adult'],
-        genreIds: json['genre_ids'].cast<int>(),
+        genreIds: (json['genre_ids'] == null) ? [] : json['genre_ids'].cast<int>(),
         id: json['id'],
         mediaType: json['media_type'],
         originalLanguage: json['original_language'],
@@ -144,12 +146,12 @@ class KnownFor extends Equatable {
         releaseDate: json['release_date'],
         title: json['title'],
         video: json['video'],
-        voteAverage: json['vote_average'],
+        voteAverage: json['vote_average']?.toDouble(),
         voteCount: json['vote_count'],
         backdropPath: json['backdrop_path'],
         firstAirDate: json['first_air_date'],
         name: json['name'],
-        originCountry: json['origin_country'].cast<String>(),
+        originCountry: json['origin_country']?.cast<String>() ?? [],
         originalName: json['original_name'],
       );
 

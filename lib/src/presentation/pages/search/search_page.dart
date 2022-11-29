@@ -22,12 +22,6 @@ class SearchPage extends StatefulWidget {
   State<SearchPage> createState() => _SearchPageState();
 }
 
-////- todo: implement search for three types of Movie , Tv Show, People
-// todo: implement Custom Image Slider for home page
-// todo: implement details page for Movie
-// todo: implement details page for Tvshow
-// todo: implement details page for People
-
 class _SearchPageState extends State<SearchPage> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchTextController = TextEditingController();
@@ -113,11 +107,11 @@ class _SearchPageState extends State<SearchPage> {
             controller: _searchTextController,
             decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
-                fillColor: Colors.grey[200],
+                fillColor: Colors.transparent,
                 filled: true,
-                border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(20)),
-                    borderSide: BorderSide(width: 0, style: BorderStyle.none)),
+                border: OutlineInputBorder(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    borderSide: BorderSide(width: 1, color: context.appTheme.shadowColor)),
                 prefixIcon: const Icon(
                   Icons.search_rounded,
                   color: AppColors.grayColor,

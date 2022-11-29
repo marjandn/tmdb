@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:tmdb_prj/src/app/config/colors/styles.dart';
 import 'package:tmdb_prj/src/app/constants/constants.dart';
 import 'package:tmdb_prj/src/app/extensions/theme_extenesion.dart';
 
@@ -36,17 +38,16 @@ class PictureItemWidget extends StatelessWidget {
     return Container(
       width: 160,
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-                color: context.appTheme.shadowColor, blurRadius: 5, offset: const Offset(0, 4)),
-          ],
-          image: DecorationImage(
-              image: NetworkImage(
-                "${Constants.imageBasePath}$picture",
-              ),
-              fit: BoxFit.cover)),
+      decoration: AppStyles(context).imageContainerDecoration,
+      child: ClipRRect(
+        borderRadius: const BorderRadius.all(Radius.circular(50)),
+        child: CachedNetworkImage(
+          imageUrl: "${Constants.imageBasePath}$picture",
+          placeholder: (context, url) =>
+              Image.asset("assets/images/film_placeholder.png", fit: BoxFit.cover),
+          fit: BoxFit.cover,
+        ),
+      ),
     );
   }
 }

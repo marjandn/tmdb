@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
 import 'package:tmdb_prj/src/data/providers/remote/params/details_param.dart';
-import 'package:tmdb_prj/src/domain/entities/movie_credits.dart';
+import 'package:tmdb_prj/src/domain/entities/credits.dart';
 import 'package:tmdb_prj/src/domain/entities/movie_details.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_movie_credits.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_movie_details.dart';
@@ -49,7 +49,7 @@ class MovieDetailsBloc extends Bloc<MovieDetailsEvent, MovieDetailsState> {
       (event, emit) async {
         emit(const MovieCreditsLoadingState());
 
-        Either<Failur, List<MovieCredits>> response =
+        Either<Failur, List<Credits>> response =
             await getMovieCredits.call(MovieDetailsParam(movieId: event.movieId));
         response.fold((left) => emit(const MovieCreditsFailedState()),
             (right) => emit(MovieCreditsSuccessState(right)));
