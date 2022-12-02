@@ -31,12 +31,13 @@ class MovieRepositoryImpl extends MovieRepository {
           await movieRemoteDataSource.getPopularMovies(pagingParam: pagingParam);
 
       movieLocalDataSource.savePopularMoviesFirstPage(movieResponse: movieResponse);
+
+      List<Movie> movies = movieLocalDataSource.getPopularMoviesFirstPage()?.toEntity() ?? [];
+      return Right(movies);
     } on ServerException catch (error) {
       log(error.errorMessage);
+      return Left(ServerFailuer(error.errorMessage));
     }
-
-    List<Movie> movies = movieLocalDataSource.getPopularMoviesFirstPage()?.toEntity() ?? [];
-    return Right(movies);
   }
 
   @override
