@@ -65,8 +65,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       (event, emit) async {
         emit(const PopularMoviesFetchLoadingState());
 
-        Either<Failur, List<Movie>> popularMovies =
-            await getPopularMovies.call(PagingParam(page: 1));
+        Either<Failur, List<Movie>> popularMovies = await getPopularMovies.call(1);
 
         popularMovies.fold((left) => emit(const PopularMoviesFetchFailedState()),
             (right) => emit(PopularMoviesFetchSuccessState(movies: right)));

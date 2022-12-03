@@ -19,8 +19,7 @@ class PersonDetailsBloc extends Bloc<PersonDetailsEvent, PersonDetailsState> {
     on<PersonPrimaryDetailsRequestEvent>((event, emit) async {
       emit(const PersonPrimaryDetailsLoadingState());
 
-      Either<Failur, People> response =
-          await getPersonDetails.call(PersonDetailsParam(personId: event.personId));
+      Either<Failur, People> response = await getPersonDetails.call(event.personId);
 
       response.fold((left) => emit(const PersonPrimaryDetailsFailedState()),
           (right) => emit(PersonPrimaryDetailsSuccessState(personDetails: right)));

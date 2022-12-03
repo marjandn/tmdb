@@ -7,8 +7,10 @@ import 'dart:async' as _i4;
 
 import 'package:dio/dio.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:tmdb_prj/src/data/models/tvshow_response.dart' as _i5;
 import 'package:tmdb_prj/src/data/providers/remote/client/dio_base_client.dart'
     as _i3;
+import 'package:tmdb_prj/src/domain/entities/tvshow.dart' as _i6;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -256,4 +258,27 @@ class MockResponse<T> extends _i1.Mock implements _i2.Response<T> {
           Invocation.getter(#realUri),
         ),
       ) as Uri);
+}
+
+/// A class which mocks [TvShowResponse].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTvShowResponse extends _i1.Mock implements _i5.TvShowResponse {
+  MockTvShowResponse() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  List<Object?> get props => (super.noSuchMethod(
+        Invocation.getter(#props),
+        returnValue: <Object?>[],
+      ) as List<Object?>);
+  @override
+  List<_i6.TvShow> toEntity() => (super.noSuchMethod(
+        Invocation.method(
+          #toEntity,
+          [],
+        ),
+        returnValue: <_i6.TvShow>[],
+      ) as List<_i6.TvShow>);
 }
