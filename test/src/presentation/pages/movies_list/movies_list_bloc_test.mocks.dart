@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i5;
 
-import 'package:either_dart/src/either.dart' as _i3;
+import 'package:either_dart/either.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:tmdb_prj/src/app/errors/failure.dart' as _i6;
 import 'package:tmdb_prj/src/domain/entities/movie.dart' as _i7;

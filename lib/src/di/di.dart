@@ -38,11 +38,13 @@ import 'package:tmdb_prj/src/presentation/pages/search/bloc/search_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/tvshow/bloc/tvshow_details_bloc.dart';
 import 'package:tmdb_prj/src/presentation/pages/tvshow_list/bloc/tvshow_list_bloc.dart';
 
+import '../app/config/themes/bloc/theme_bloc.dart';
 import '../domain/repositories/tvshow_repository.dart';
 import '../domain/usecases/movie/get_movie_details.dart';
 import '../domain/usecases/tvshow/get_tvshow_credits.dart';
 import '../domain/usecases/tvshow/get_tvshow_details.dart';
 import '../domain/usecases/tvshow/get_tvshow_pictures.dart';
+import '../presentation/pages/dashboard/bloc/dashboard_bloc.dart';
 import '../presentation/pages/movie/bloc/movie_details_bloc.dart';
 import '../presentation/pages/movies_list/bloc/movies_list_bloc.dart';
 
@@ -142,6 +144,8 @@ registerSyncLocators() {
       GetPersonPictures(peopleRepository: injector<PeopleRepository>()));
 
   // * BLoC
+  injector.registerSingleton<ThemeBloc>(ThemeBloc());
+  injector.registerSingleton<DashboardBloc>(DashboardBloc());
   injector.registerSingleton<HomeBloc>(HomeBloc(
     getPopularMovies: injector<GetPopularMovies>(),
     getPopularPeople: injector<GetPopularPeople>(),

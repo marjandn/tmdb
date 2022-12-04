@@ -12,7 +12,7 @@ void main() async {
   await setupAllLocators();
 
   runApp(BlocProvider(
-    create: (context) => ThemeBloc(),
+    create: (context) => injector<ThemeBloc>(),
     child: const MyApp(),
   ));
 }
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       home: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => DashboardBloc(),
+            create: (context) => injector<DashboardBloc>(),
           ),
         ],
         child: const DashboardPage(),
