@@ -104,7 +104,7 @@ class TvshowDetailsResponse {
         voteAvg: vote_average.toString(),
         voteCount: vote_count ?? 0,
         status: status.toString(),
-        originalTitle: original_title.toString(),
+        originalTitle: title.toString(),
         releaseDate: release_date.toString(),
         productionCounties: production_countries!.map((e) => e.name).toList(),
         runtime: runtime ?? 0,

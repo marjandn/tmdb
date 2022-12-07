@@ -32,7 +32,6 @@ class MovieRemoteDataSourceImpl extends MovieRemoteDataSource {
   @override
   Future<MovieResponse> getPopularMovies({required PagingParam pagingParam}) async {
     try {
-      print("request for popular movie list");
       Response response =
           await dioClient.getRequest(path: 'movie/popular', queryParameters: pagingParam.toJson());
 
