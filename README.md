@@ -9,5 +9,6 @@
 
 
 ## Application video
-<video style="width:300px" src="https://user-images.githubusercontent.com/25709266/205011100-9e025122-50bd-4fe9-8e2e-3a1b9b8147c3.mp4"/>
+<image style="width:300" src="https://user-images.githubusercontent.com/25709266/206127086-8fa59fea-febc-42bd-b960-1fa29603e561.gif"/>
 
+ 
