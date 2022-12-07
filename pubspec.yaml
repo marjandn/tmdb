@@ -23,6 +23,7 @@ dependencies:
   easy_debounce: ^2.0.2+1
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.3
+  fan_carousel_image_slider: ^0.0.1
 
 dev_dependencies:
   integration_test:

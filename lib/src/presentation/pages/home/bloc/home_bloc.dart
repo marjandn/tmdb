@@ -5,7 +5,6 @@ import 'package:tmdb_prj/src/app/errors/failure.dart';
 import 'package:tmdb_prj/src/domain/entities/movie.dart';
 import 'package:tmdb_prj/src/domain/entities/people.dart';
 import 'package:tmdb_prj/src/domain/entities/tvshow.dart';
-import 'package:tmdb_prj/src/domain/entities/tvshow_details.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_featured_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_latest_movies.dart';
 import 'package:tmdb_prj/src/domain/usecases/movie/get_popular_movies.dart';

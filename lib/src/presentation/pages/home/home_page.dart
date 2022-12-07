@@ -1,3 +1,4 @@
+import 'package:fan_carousel_image_slider/fan_carousel_image_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +20,6 @@ import 'widgets/popular_people_list_widget.dart';
 import 'widgets/list_heaeder_widget.dart';
 import 'widgets/movies_list_widget.dart';
 
-// todo: Build your custome image slider according to UI
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -62,8 +62,29 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+          SizedBox(
+            child: BlocBuilder<HomeBloc, HomeState>(
+              buildWhen: (previous, current) =>
+                  current is FeaturedMoviesFetchLoadingState ||
+                  current is FeaturedMoviesFetchFailedState ||
+                  current is FeaturedMoviesFetchSuccessState,
+              builder: (context, state) {
+                if (state is FeaturedMoviesFetchSuccessState) {
+                  return FanCarouselImageSlider(
+                    imagesLink: state.movies
+                        .map((e) => "${Constants.imageBasePath}${e.posterPath}")
+                        .toList(),
+                    isAssets: false,
+                    showIndicator: false,
+                    showArrowNav: true,
+                  );
+                }
+                return const CupertinoActivityIndicator();
+              },
+            ),
+          ),
           const SizedBox(
-            height: 16,
+            height: 24,
           ),
           ListHeaderWidget(
             headerTitle: "Today Popular Movies",
