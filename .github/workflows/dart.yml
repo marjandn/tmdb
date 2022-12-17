@@ -13,7 +13,7 @@ jobs:
           KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
         run: |
           # import keystore from secrets
-          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/my_production.keystore
+            echo $ENCODED_STRING | base64 -di > /home/runner/work/tmdb/tmdb/android/key.keystore
  
  
         
@@ -41,7 +41,7 @@ jobs:
         run: flutter build apk --release
 
       - name: Sign Android App 
-        run: jarsigner -keystore $RUNNER_TEMP/my_production.keystore -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-signed.apk tmdb
+        run: jarsigner -keystore /home/runner/work/tmdb/tmdb/android/key.keystore -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-signed.apk tmdb
 
       
           
