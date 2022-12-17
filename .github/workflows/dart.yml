@@ -19,6 +19,7 @@ jobs:
           channel: 'stable'
           
       - run: flutter build apk
+      
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
