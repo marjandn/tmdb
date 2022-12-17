@@ -19,6 +19,11 @@ jobs:
     - uses: subosito/flutter-action@v2
       with:
         channel: 'stable'
+      env:
+        KEY_JKS: ${{ secrets.KEY_JKS }}
+        KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+        ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: echo $KEY_JKS > key.jks
     - run: flutter pub get
     - run: flutter test
     - run: flutter build apk
