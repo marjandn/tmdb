@@ -10,10 +10,10 @@ jobs:
         
       - name: Create the Keystore
         env:
-           ENCODED_STRING: ${{ secrets.KEY_JKS }}
-        run: | 
-            echo $ENCODED_STRING | base64 -di > /home/runner/work/tmdb/tmdb/android/key.jks
- 
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          # import keystore from secrets
+          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/my_production.keystore
  
  
         
@@ -35,21 +35,21 @@ jobs:
         run: flutter pub get
         
     
-        
-      - run: export KEY_PASSWORD=123456789
-      - run: export ALIAS_PASSWORD=123456789
+ 
 
       - name: Build Android apk
         run: flutter build apk --release
 
-  
+      - name: Sign Android App 
+        run: jarsigner -keystore $RUNNER_TEMP/my_production.keystore -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-signed.apk tmdb
+
       
           
       - name: Publish Android Artefacts
         uses: actions/upload-artifact@v1
         with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          name: release-signed-apk
+          path: build/app/outputs/flutter-apk/app-release-signed.apk
   
       
        
