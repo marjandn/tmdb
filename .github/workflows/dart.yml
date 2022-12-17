@@ -39,11 +39,13 @@ jobs:
 
       - name: Build Android apk
         run: flutter build apk --release
+        
+      - run: ls
 
       - name: Sign Android App 
-        run: jarsigner -keystore /home/runner/work/tmdb/tmdb/android/key.keystore -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/app-release-signed.apk tmdb
-
+        run: jarsigner -keystore /home/runner/work/tmdb/tmdb/android/key.keystore  -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} build/app/outputs/flutter-apk/app-release.apk tmdb
       
+      - run: ls
           
       - name: Publish Android Artefacts
         uses: actions/upload-artifact@v1
