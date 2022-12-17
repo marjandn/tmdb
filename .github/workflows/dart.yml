@@ -21,49 +21,32 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          
-          
-      - run: flutter build apk
-          
-      - uses: Tlaster/android-sign@v1
-        name: Sign app APK
-        with:
-          releaseDirectory: |
-              build/app/outputs/flutter-apk 
-              signingKeyBase64: ${{ secrets.KEY_JKS }}
-              output: output
-              alias: tmdb
-              keyStorePassword: ${{ secrets.KEY_PASSWORD }}
-              keyPassword: ${{ secrets.KEY_PASSWORD }}
-        env:
-              BUILD_TOOLS_VERSION: "30.0.2"
- 
- 
- 
-           
-     
       
-      - name: Upload APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
-
-      - name: Install dependencies
+      
+      - name: Create the Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEY_JKS }}
+        run: |
+          # import keystore from secrets
+          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/key.keystore
+          
+      - name: Restore packages
         run: flutter pub get
 
-      - name: Run unit tests
-        run: flutter test --coverage
+      - name: Build Android App Bundle
+        run: flutter build appbundle --release
 
-      - name: Upload to code coverage
-        uses: codecov/codecov-action@v1.2.2
+      - name: Sign Android App Bundle
+        run: jarsigner -keystore $RUNNER_TEMP/key.keystore -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/bundle/release/app-release-signed.aab build/app/outputs/bundle/release/*.aab tmdb
+
+      
+      
+          
+      - name: Publish Android Artefacts
+        uses: actions/upload-artifact@v1
         with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          file: coverage/lcov.info
-
-
-      - name: Upload Screenshoots
-        uses: actions/upload-artifact@v3
-        with:
-          name: Test result screenshots
-          path: screenshots/*.png
+          name: release-aab-signed
+          path: build/app/outputs/bundle/release/app-release-signed.aab
+  
+      
+       
