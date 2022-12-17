@@ -39,7 +39,11 @@ jobs:
       - name: Build Android apk
         run: flutter build apk --release
         
+        
+      - run: cd android
       - run: ls
+      
+      - run: ./gradlew clean
 
       - name: Sign Android App 
         run: jarsigner -keystore /home/runner/work/tmdb/tmdb/android/key.keystore  -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} build/app/outputs/flutter-apk/app-release.apk tmdb
