@@ -14,25 +14,18 @@ jobs:
           distribution: 'zulu'
           java-version: '11'
           
-      - name: Decode Keystore
-        id: decode_keystore
-        uses: timheuer/base64-to-file@v1
-        with:
-          fileName: 'key.jks'
-          encodedString: ${{ secrets.KEY_JKS }}
+  
 
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
         env:
-           KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
-           ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-          
-      
-        
-
-      - run: flutter build apk
+            KEY_JKS: ${{ secrets.KEY_JKS }}
+            KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+            ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+            run: echo $KEY_JKS > key.jks && flutter build apk
+  
       
       - name: Upload APK
         uses: actions/upload-artifact@v3
