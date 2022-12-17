@@ -15,12 +15,6 @@ jobs:
             echo $ENCODED_STRING | base64 -di > /home/runner/work/tmdb/tmdb/android/key.jks
  
  
-      - name: export pass
-        env:
-         SUPER_SECRET: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          export "$env:SUPER_SECRET" 
- 
  
         
       - name: Install Java
