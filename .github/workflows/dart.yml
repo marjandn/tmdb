@@ -11,6 +11,8 @@ jobs:
         
       - name: Decode Keystore
         env:
+            KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
+            ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
             ENCODED_STRING: ${{ secrets.KEY_JKS }}
         run: | 
             echo $ENCODED_STRING | base64 -di > /home/runner/work/tmdb/tmdb/android/key.jks
