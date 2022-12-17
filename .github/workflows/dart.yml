@@ -8,6 +8,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         
+      - name: Decode Keystore
+        id: decode_keystore
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'key.jks'
+          encodedString: ${{ secrets.KEY_JKS }}
+        
       - name: Install Java
         uses: actions/setup-java@v2
         with: 
@@ -21,11 +28,10 @@ jobs:
         with:
           channel: 'stable'
         env:
-            KEY_JKS: ${{ secrets.KEY_JKS }}
             KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
             ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-            run: echo $KEY_JKS > key.jks && flutter build apk
-  
+           
+      - run: flutter build apk
       
       - name: Upload APK
         uses: actions/upload-artifact@v3
