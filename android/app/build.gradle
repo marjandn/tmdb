@@ -58,7 +58,7 @@ android {
     
     signingConfigs {
         release {
-            storeFile file("../AppKey/key.jks")
+            storeFile file("../key.jks")
             keyAlias "tmdb"
             keyPassword "$System.env.ALIAS_PASSWORD"
             storePassword "$System.env.KEY_PASSWORD"
