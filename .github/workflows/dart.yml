@@ -39,7 +39,6 @@ jobs:
           token: ${{secrets.CODECOV_TOKEN}}
           file: coverage/lcov.info
 
-  
       - name: Upload Screenshoots
         uses: actions/upload-artifact@v3
         with:
