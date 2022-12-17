@@ -32,8 +32,8 @@ jobs:
       - name: Restore packages
         run: flutter pub get
         
-      - run: export KEY_PASSWORD= ${{ secrets.KEY_PASSWORD }}
-      - run: export ALIAS_PASSWORD= ${{ secrets.KEY_PASSWORD }}
+      - run: export KEY_PASSWORD=123456789
+      - run: export ALIAS_PASSWORD=123456789
 
       - name: Build Android apk
         run: flutter build apk --release
