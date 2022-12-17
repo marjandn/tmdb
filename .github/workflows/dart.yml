@@ -27,7 +27,7 @@ jobs:
     - uses: actions/upload-artifact@v2.1.4
       with:
         name: release-apk
-        path: build/app/outputs/flutter-apk/app-release.apk 
+        path: build/app/outputs/flutter-apk/app-debug.apk
         if-no-files-found: error
    
   
