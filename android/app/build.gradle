@@ -56,8 +56,14 @@ android {
         versionName flutterVersionName
     }
     
-
-
+    signingConfigs {
+        release {
+            storeFile file("../key.jks")
+            keyAlias "tmdb"
+            keyPassword "$System.env.ALIAS_PASSWORD"
+            storePassword "$System.env.KEY_PASSWORD"
+        }
+    } 
 
     buildTypes {
        release {
