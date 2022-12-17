@@ -13,7 +13,7 @@ jobs:
         env:
             ENCODED_STRING: ${{ secrets.KEY_JKS }}
         run: | 
-            echo $ENCODED_STRING | base64 -di > "${RUNNER_TEMP}"/key.jks
+            echo $ENCODED_STRING | base64 -di > /home/runner/work/tmdb/tmdb/android/key.jks
 
         
       - name: Install Java
