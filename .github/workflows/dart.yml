@@ -31,21 +31,21 @@ jobs:
           
       - name: Restore packages
         run: flutter pub get
+        
+      - run: export KEY_PASSWORD= ${{ secrets.KEY_PASSWORD }}
+      - run: export ALIAS_PASSWORD= ${{ secrets.KEY_PASSWORD }}
 
-      - name: Build Android App Bundle
-        run: flutter build appbundle --release
+      - name: Build Android apk
+        run: flutter build apk --release
 
-      - name: Sign Android App Bundle
-        run: jarsigner -keystore /home/runner/work/tmdb/tmdb/android/key.jks -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/bundle/release/app-release-signed.aab build/app/outputs/bundle/release/*.aab tmdb
-
-      
+  
       
           
       - name: Publish Android Artefacts
         uses: actions/upload-artifact@v1
         with:
-          name: release-aab-signed
-          path: build/app/outputs/bundle/release/app-release-signed.aab
+          name: release-apk
+          path: build/app/outputs/flutter-apk/app-release.apk
   
       
        
