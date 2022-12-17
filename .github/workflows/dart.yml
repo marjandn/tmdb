@@ -27,7 +27,7 @@ jobs:
     - uses: actions/upload-artifact@v2.1.4
       with:
         name: release-apk
-        path: "**"
+        path: /outputs
     - name: Install Dependencies
       run: flutter packages get
     - name: Analyze
