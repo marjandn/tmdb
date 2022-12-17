@@ -23,11 +23,12 @@ jobs:
         KEY_JKS: ${{ secrets.KEY_JKS }}
         KEY_PASSWORD: ${{ secrets.ALIAS_PASSWORD }}
         ALIAS_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: echo $KEY_JKS > key.jks && flutter pub get && flutter test && flutter build apk --release
+        run: echo $KEY_JKS > key.jks && flutter build apk --release
     - uses: actions/upload-artifact@v2.1.4
       with:
         name: release-apk
         path: build/app/outputs/flutter-apk/app-release.apk 
+        if-no-files-found: error
    
   
   
