@@ -27,11 +27,8 @@ jobs:
     - uses: actions/upload-artifact@v2.1.4
       with:
         name: release-apk
-        path: /outputs
-    - name: Install Dependencies
-      run: flutter packages get
-    - name: Analyze
-      run: flutter analyze lib test
-    - name: Run tests
-      run: flutter test --no-pub --coverage --test-randomize-ordering-seed random
+        path: /outputs/app-release.apk
+   
+  
+  
     
