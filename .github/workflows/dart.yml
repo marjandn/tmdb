@@ -10,10 +10,9 @@ jobs:
         
       - name: Create the Keystore
         env:
-          KEYSTORE_BASE64: ${{ secrets.KEY_JKS }}
-        run: |
-          # import keystore from secrets
-          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/key.jks
+           ENCODED_STRING: ${{ secrets.KEY_JKS }}
+        run: | 
+            echo $ENCODED_STRING | base64 -di > /home/runner/work/tmdb/tmdb/android/key.jks
  
         
       - name: Install Java
