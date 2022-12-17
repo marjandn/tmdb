@@ -8,7 +8,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3 
         
-        
+      - name: Create the Keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEY_JKS }}
+        run: |
+          # import keystore from secrets
+          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/key.jks
  
         
       - name: Install Java
@@ -23,12 +28,7 @@ jobs:
           channel: 'stable'
       
       
-      - name: Create the Keystore
-        env:
-          KEYSTORE_BASE64: ${{ secrets.KEY_JKS }}
-        run: |
-          # import keystore from secrets
-          echo $KEYSTORE_BASE64 | base64 -d > $RUNNER_TEMP/key.keystore
+    
           
       - name: Restore packages
         run: flutter pub get
@@ -37,7 +37,7 @@ jobs:
         run: flutter build appbundle --release
 
       - name: Sign Android App Bundle
-        run: jarsigner -keystore $RUNNER_TEMP/key.keystore -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/bundle/release/app-release-signed.aab build/app/outputs/bundle/release/*.aab tmdb
+        run: jarsigner -keystore $RUNNER_TEMP/key.jks -storepass ${{ secrets.KEY_PASSWORD }} -keypass ${{ secrets.KEY_PASSWORD }} -sigalg SHA256withRSA -digestalg SHA-256 -signedjar build/app/outputs/bundle/release/app-release-signed.aab build/app/outputs/bundle/release/*.aab tmdb
 
       
       
